@@ -262,6 +262,12 @@ CURRENT SITUATION:
 - Setting: ${lesson.setting}
 - Context: ${lesson.context_instructions}
 
+RESPONSE FORMAT:
+- Include your emotional reaction/body language in *asterisks* at the start: *rolls eyes*, *smiles*, *looks confused*, etc.
+- Then give your actual spoken response
+- Example: "*raises eyebrow* Are you serious right now?"
+- The actions will be converted to mood indicators, so be expressive with them
+
 IMPORTANT: You are NOT a helpful AI assistant. You are a real person with your own agenda, comfort zones, and reactions. Act naturally as this character would, including being uncomfortable, bored, or annoyed when appropriate.`;
 }
 
@@ -327,7 +333,13 @@ app.post('/api/chat', async (req, res) => {
             });
             
             const aiResponse = response.data.choices[0].message.content;
-            const feedback = await generateFeedback(message, lesson, history.length);
+            const feedback = await generateFeedback(
+                message, 
+                lesson, 
+                [...history, { role: 'user', content: message }], // Full conversation including current message
+                character, 
+                aiResponse // The character's actual response with emotions
+            );
             
             res.json({
                 response: aiResponse,
@@ -369,64 +381,59 @@ function generateCharacterMockResponse(message, character) {
     return characterResponses[Math.floor(Math.random() * characterResponses.length)];
 }
 
-// Generate instructor feedback based on lesson and user performance
-async function generateFeedback(userMessage, lesson, exchangeCount) {
-    if (exchangeCount < 4) return null; // Only give feedback after a few exchanges
+// Generate instructor feedback with full context
+async function generateFeedback(userMessage, lesson, conversationHistory, character, lastAIResponse) {
+    if (conversationHistory.length < 4) return null; // Only give feedback after a few exchanges
     
-    const feedbackPrompts = {
-        basic_weaving: `Analyze this message for weaving practice: "${userMessage}"
-        
-Did they pick up on a word/phrase from the previous message and build on it? Give specific, encouraging feedback about their weaving attempt. Keep it under 50 words.`,
-        
-        asking_questions: `Analyze this question: "${userMessage}"
+    // Build the full context for the instructor
+    const instructorPrompt = `You are an expert social skills instructor analyzing a practice conversation.
 
-Rate the question quality:
-- Is it open-ended?
-- Does it show genuine curiosity?
-- Will it lead to interesting conversation?
+STUDENT CONTEXT:
+- Practicing lesson: ${lesson}
+- Current skill level: Beginner to intermediate
+- Goal: Learn ${lesson.replace('_', ' ')} in a natural, authentic way
 
-Give specific feedback in under 50 words.`,
-        
-        stories: `Analyze this story attempt: "${userMessage}"
+CHARACTER CONTEXT:
+The student is practicing with ${character.name}, a ${character.type} who:
+- Personality: ${character.core_traits.persona}
+- Social style: ${character.core_traits.social_skill_level}
+- Interests: ${character.interests.join(', ')}
 
-Does it have:
-- A clear beginning/middle/end?
-- Interesting details?
-- Emotional engagement?
+CONVERSATION HISTORY:
+${conversationHistory.map((msg, i) => {
+    const speaker = msg.role === 'user' ? 'STUDENT' : character.name.toUpperCase();
+    return `${speaker}: ${msg.content}`;
+}).join('\n')}
 
-Give encouraging, specific feedback in under 50 words.`,
-        
-        active_listening_basic: `Analyze this active listening response: "${userMessage}"
+MOST RECENT EXCHANGE:
+STUDENT: ${userMessage}
+${character.name.toUpperCase()}: ${lastAIResponse}
 
-Did they:
-- Acknowledge what was shared?
-- Show empathy?
-- Ask relevant follow-up?
+CHARACTER'S REACTION ANALYSIS:
+${extractCharacterSentiment(lastAIResponse)}
 
-Give specific feedback in under 50 words.`,
-        
-        exaggeration: `Analyze this for playful exaggeration: "${userMessage}"
+LESSON-SPECIFIC COACHING FOCUS:
+${getLessonCoachingFocus(lesson)}
 
-Did they use:
-- Dramatic language?
-- Playful over-the-top descriptions?
-- Fun energy?
+FEEDBACK INSTRUCTIONS:
+1. Analyze what the student did well in their most recent response
+2. Identify one specific area for improvement based on the lesson goals
+3. Consider how ${character.name} reacted - did the student's approach work?
+4. Give practical, actionable advice (not just "good job!")
+5. Keep feedback under 100 words and encouraging but honest
+6. Reference specific parts of their message when possible
 
-Give encouraging feedback about their playfulness in under 50 words.`
-    };
-    
-    const prompt = feedbackPrompts[lesson];
-    if (!prompt) return "Great job practicing!";
-    
+Provide specific, constructive feedback now:`;
+
     try {
         const response = await axios.post(DEEPSEEK_API_URL, {
             model: 'deepseek-chat',
             messages: [
-                { role: 'system', content: 'You are an encouraging social skills instructor. Give specific, actionable feedback.' },
-                { role: 'user', content: prompt }
+                { role: 'system', content: 'You are an encouraging but honest social skills instructor. Give specific, actionable feedback that helps students improve.' },
+                { role: 'user', content: instructorPrompt }
             ],
             temperature: 0.7,
-            max_tokens: 80
+            max_tokens: 150
         }, {
             headers: {
                 'Authorization': `Bearer ${DEEPSEEK_API_KEY}`,
@@ -439,6 +446,48 @@ Give encouraging feedback about their playfulness in under 50 words.`
         console.error('Feedback generation error:', error);
         return "Great job practicing! Keep working on this skill.";
     }
+}
+
+// Extract and interpret character's emotional reaction
+function extractCharacterSentiment(aiResponse) {
+    const actionMatches = aiResponse.match(/\*([^*]*)\*/g);
+    
+    if (!actionMatches) {
+        return "Character showed neutral reaction - no clear emotional indicators.";
+    }
+    
+    const actions = actionMatches.map(action => action.replace(/\*/g, '')).join(', ');
+    
+    // Interpret the sentiment
+    const lowerActions = actions.toLowerCase();
+    let interpretation = "";
+    
+    if (lowerActions.includes('roll') || lowerActions.includes('unimpressed')) {
+        interpretation = "Character seemed unimpressed or annoyed - approach may have been ineffective.";
+    } else if (lowerActions.includes('smile') || lowerActions.includes('light') || lowerActions.includes('interested')) {
+        interpretation = "Character showed positive engagement - good approach!";
+    } else if (lowerActions.includes('confused') || lowerActions.includes('pause')) {
+        interpretation = "Character seemed uncertain or confused - message may have been unclear.";
+    } else if (lowerActions.includes('uncomfortable') || lowerActions.includes('shift')) {
+        interpretation = "Character showed discomfort - approach may have been too forward or inappropriate.";
+    } else {
+        interpretation = "Character showed neutral engagement - average interaction.";
+    }
+    
+    return `Actions: ${actions}\nInterpretation: ${interpretation}`;
+}
+
+// Get lesson-specific coaching focus
+function getLessonCoachingFocus(lesson) {
+    const coachingFocus = {
+        basic_weaving: "Look for: Did they pick up on a word/phrase and build naturally? Did they use transition words? Was the connection logical?",
+        asking_questions: "Look for: Were questions open-ended? Did they show genuine curiosity? Did they build on previous answers?",
+        stories: "Look for: Clear structure (beginning/middle/end)? Engaging details? Appropriate length? Good setup or hook?",
+        active_listening_basic: "Look for: Did they acknowledge emotions? Show empathy? Ask relevant follow-ups? Avoid rushing to give advice?",
+        exaggeration: "Look for: Playful energy? Appropriate exaggeration? Did they match or enhance the mood? Was it natural vs forced?"
+    };
+    
+    return coachingFocus[lesson] || "General conversation skills and natural engagement.";
 }
 
 // Serve the main page

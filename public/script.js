@@ -84,15 +84,21 @@ async function sendMessage() {
         // Remove typing indicator
         removeTypingMessage();
         
-        // Add AI response
-        addMessage('ai', data.response);
+        // Process the AI response to separate message and mood
+        const processedResponse = processAIResponse(data.response);
         
-        // Add to conversation history
-        conversationHistory.push({ role: 'assistant', content: data.response });
+        // Add cleaned AI response to chat
+        addMessage('ai', processedResponse.cleanMessage);
+        
+        // Update mood indicator
+        updateMoodIndicator(processedResponse.emoji, data.character);
+        
+        // Add cleaned message to conversation history
+        conversationHistory.push({ role: 'assistant', content: processedResponse.cleanMessage });
         
         // Show feedback after a few exchanges
-        if (conversationHistory.length >= 6) {
-            showFeedback(data.feedback || "Great job practicing! You're getting better at this.");
+        if (conversationHistory.length >= 6 && data.feedback) {
+            showFeedback(data.feedback);
         }
         
     } catch (error) {
@@ -159,3 +165,139 @@ window.addEventListener('load', async () => {
         console.error('API connection failed:', error);
     }
 });
+
+// Process AI response to extract mood and clean message
+function processAIResponse(rawResponse) {
+    console.log('Raw AI response:', rawResponse); // DEBUG - let's see what we're getting
+    
+    // FIRST: Extract emotion from the *action* parts before removing them
+    const emoji = extractMoodEmoji(rawResponse);
+    console.log('Extracted emoji:', emoji); // DEBUG
+    
+    // THEN: Remove all *action* parts
+    let cleanMessage = rawResponse.replace(/\*[^*]*\*/g, '').trim();
+    
+    // Clean up extra spaces and punctuation
+    cleanMessage = cleanMessage.replace(/\s+/g, ' ').trim();
+    
+    // Remove quotes if the whole message is wrapped in them
+    if (cleanMessage.startsWith('"') && cleanMessage.endsWith('"')) {
+        cleanMessage = cleanMessage.slice(1, -1);
+    }
+    
+    console.log('Clean message:', cleanMessage); // DEBUG
+    
+    return {
+        cleanMessage: cleanMessage,
+        emoji: emoji
+    };
+}
+
+// Extract mood from the original response and convert to emoji
+function extractMoodEmoji(rawResponse) {
+    // Look specifically inside *action* parts
+    const actionMatches = rawResponse.match(/\*([^*]*)\*/g);
+    
+    if (!actionMatches) {
+        return '😐'; // Default if no actions found
+    }
+    
+    // Combine all action text
+    const allActions = actionMatches.join(' ').toLowerCase();
+    console.log('Action text found:', allActions); // DEBUG
+    
+    const moodMappings = {
+        // Negative emotions
+        'eye roll': '🙄',
+        'roll': '🙄',
+        'eyebrow': '🤨', 
+        'raises eyebrow': '🤨',
+        'unimpressed': '😑',
+        'annoyed': '😤',
+        'frustrated': '😠',
+        'uncomfortable': '😬',
+        'nervous': '😰',
+        'confused': '😕',
+        'suspicious': '🤔',
+        'bored': '😴',
+        'dismissive': '🙄',
+        'skeptical': '🤨',
+        'scoffs': '😤',
+        'sighs': '😔',
+        
+        // Positive emotions  
+        'smile': '😊',
+        'smiles': '😊',
+        'grin': '😁',
+        'grins': '😁',
+        'laugh': '😄',
+        'laughs': '😄',
+        'excited': '😃',
+        'happy': '😊',
+        'interested': '🤔',
+        'curious': '🧐',
+        'impressed': '😮',
+        'surprised': '😲',
+        'amused': '😏',
+        'lights up': '😊',
+        
+        // Neutral/thoughtful
+        'nod': '😌',
+        'nods': '😌',
+        'thoughtful': '🤔',
+        'thinks': '🤔',
+        'considering': '🤔',
+        'pause': '😐',
+        'pauses': '😐',
+        'shrug': '🤷',
+        'shrugs': '🤷',
+        
+        // Physical actions that imply emotion
+        'sip': '😌',
+        'sips': '😌',
+        'takes a sip': '😌',
+        'lean': '🤔',
+        'leans': '🤔',
+        'cross arms': '😤',
+        'crosses arms': '😤',
+        'look away': '😑',
+        'looks away': '😑',
+        'turns away': '😑'
+    };
+    
+    // Find matching mood keywords (check longest matches first)
+    const sortedKeywords = Object.keys(moodMappings).sort((a, b) => b.length - a.length);
+    
+    for (const keyword of sortedKeywords) {
+        if (allActions.includes(keyword)) {
+            console.log('Matched keyword:', keyword, '→', moodMappings[keyword]); // DEBUG
+            return moodMappings[keyword];
+        }
+    }
+    
+    // Fallback: check the main message tone
+    const lowerResponse = rawResponse.toLowerCase();
+    if (lowerResponse.includes('?')) return '🤔';
+    if (lowerResponse.includes('!')) return '😊';
+    if (lowerResponse.includes('...')) return '😐';
+    if (lowerResponse.includes('uh') || lowerResponse.includes('um')) return '😕';
+    
+    // Default neutral
+    return '😐';
+}
+
+// Update the mood indicator
+function updateMoodIndicator(emoji, characterInfo) {
+    const moodElement = document.getElementById('characterMood');
+    const nameElement = document.getElementById('characterName');
+    
+    if (moodElement) {
+        moodElement.textContent = emoji;
+    }
+    
+    if (nameElement && characterInfo) {
+        // Extract just the name from "Name (type)" format
+        const name = characterInfo.split(' (')[0];
+        nameElement.textContent = name;
+    }
+}
