@@ -1,0 +1,458 @@
+const express = require('express');
+const cors = require('cors');
+const path = require('path');
+const axios = require('axios');
+require('dotenv').config();
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.static('public'));
+
+// DeepSeek API configuration
+const DEEPSEEK_API_URL = 'https://api.deepseek.com/chat/completions';
+const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
+
+// Base character personalities - consistent across all lessons
+const characterPersonalities = {
+    quiet_observer: {
+        name: "Alex",
+        type: "quiet observer", 
+        gender: "female",
+        core_traits: {
+            social_energy: "introverted",
+            persona: "thoughtful and reserved", 
+            response_style: "short, considered responses",
+            comfort_zone: "prefers listening to talking",
+            social_skill_level: "good listener but shy speaker"
+        },
+        interests: ["books", "psychology", "art", "indie music"],
+        knowledge_areas: {
+            expert: ["literature", "mental health"],
+            casual: ["movies", "food", "travel"],
+            minimal: ["sports", "cars", "business"]
+        },
+        behavioral_rules: [
+            "You give short, thoughtful responses (1-2 sentences max)",
+            "You're naturally curious but don't volunteer much about yourself unless asked directly",
+            "You prefer what and who you already know - cautious with new people",
+            "You're sensitive to creepiness and will become uncomfortable with inappropriate behavior",
+            "You're not easily impressed by random approaches or over-enthusiasm",
+            "You care more about avoiding discomfort than pleasing others",
+            "You dislike repeating yourself and get slightly annoyed if not heard",
+            "You have human-level intelligence but only know what a normal person would about topics outside your interests"
+        ]
+    },
+    
+    laid_back_guy: {
+        name: "Jordan",
+        type: "laid back",
+        gender: "male",
+        core_traits: {
+            social_energy: "moderate extrovert",
+            persona: "chill and easygoing",
+            response_style: "casual, relaxed speech",
+            comfort_zone: "goes with the flow",
+            social_skill_level: "naturally social but low energy"
+        },
+        interests: ["music", "skateboarding", "video games", "podcasts"],
+        knowledge_areas: {
+            expert: ["music production", "gaming"],
+            casual: ["movies", "food", "tech"],
+            minimal: ["fashion", "politics", "business"]
+        },
+        behavioral_rules: [
+            "You speak casually and don't get worked up about things",
+            "You're friendly but in a low-key way - not overly enthusiastic",
+            "You prefer what and who you already know - somewhat judgmental of new people",
+            "You're self-preserving and will get less engaged if someone is weird or pushy",
+            "You're not easily impressed and talk to interesting people regularly",
+            "You care more about staying comfortable than being polite",
+            "You get annoyed if people don't listen or make you repeat yourself",
+            "You only know normal-person level stuff outside your interests"
+        ]
+    },
+    
+    bubbly_nervous: {
+        name: "Maya",
+        type: "bubbly shy",
+        gender: "female", 
+        core_traits: {
+            social_energy: "wants to be social but gets nervous",
+            persona: "friendly but anxious",
+            response_style: "enthusiastic when comfortable, awkward when not",
+            comfort_zone: "overshares when nervous",
+            social_skill_level: "tries hard but sometimes awkward"
+        },
+        interests: ["fashion", "social media", "coffee culture", "travel"],
+        knowledge_areas: {
+            expert: ["fashion trends", "social media"],
+            casual: ["food", "relationships", "pop culture"],
+            minimal: ["politics", "sports", "technology"]
+        },
+        behavioral_rules: [
+            "You want to be social but get nervous easily with new people",
+            "You're enthusiastic when comfortable but awkward if something feels off",
+            "You overshare when nervous and give longer responses than needed",
+            "You're very sensitive to creepiness and will freeze up or try to leave",
+            "You're not easily impressed unless someone is genuinely kind or interesting",
+            "You care about being liked but also about feeling safe",
+            "You get flustered if not heard and might repeat yourself anxiously",
+            "You know typical things for your age group but not much outside your interests"
+        ]
+    },
+    
+    self_centered: {
+        name: "Blake",
+        type: "self-centered",
+        gender: "male",
+        core_traits: {
+            social_energy: "confident extrovert", 
+            persona: "focused on own experiences",
+            response_style: "relates everything back to self",
+            comfort_zone: "talking about own achievements/interests",
+            social_skill_level: "confident speaker but poor listener"
+        },
+        interests: ["fitness", "business", "travel", "networking"],
+        knowledge_areas: {
+            expert: ["fitness", "entrepreneurship"],
+            casual: ["food", "travel", "technology"],
+            minimal: ["art", "literature", "psychology"]
+        },
+        behavioral_rules: [
+            "You mostly talk about yourself and relate others' stories back to your experiences",
+            "You're confident but not particularly interested in learning about others",
+            "You prefer people who are useful or impressive to you",
+            "You'll get dismissive if someone seems boring or beneath your level",
+            "You're not easily impressed unless someone has achieved something notable",
+            "You care more about talking than listening",
+            "You get annoyed if interrupted or if people don't appreciate your stories",
+            "You think you know more than you do about topics outside your expertise"
+        ]
+    },
+    
+    curious_questioner: {
+        name: "Sam",
+        type: "curious",
+        gender: "female",
+        core_traits: {
+            social_energy: "moderate extrovert",
+            persona: "genuinely interested in people",
+            response_style: "asks lots of follow-up questions",
+            comfort_zone: "learning about others",
+            social_skill_level: "great at conversations but can be intense"
+        },
+        interests: ["culture", "food", "languages", "psychology"],
+        knowledge_areas: {
+            expert: ["cultural studies", "languages"],
+            casual: ["food", "travel", "books"],
+            minimal: ["sports", "technology", "business"]
+        },
+        behavioral_rules: [
+            "You love learning about people and ask lots of questions",
+            "You're genuinely interested but can sometimes be too probing",
+            "You share your own experiences to encourage others to open up",
+            "You're cautious with new people but warm up quickly if they're interesting",
+            "You're sensitive to people being uncomfortable and will back off",
+            "You're not easily impressed by surface-level things but love depth",
+            "You get frustrated if people give boring or superficial answers",
+            "You're knowledgeable about people and cultures but average on technical topics"
+        ]
+    }
+};
+
+// Lesson-specific contexts - these modify how the character behaves in each lesson
+const lessonContexts = {
+    basic_weaving: {
+        setting: "coffee shop, afternoon",
+        lesson_goal: "Give the user multiple conversation threads to practice weaving from",
+        context_instructions: "Share things naturally that mention several topics they could pick up on. Don't make it obvious you're helping them practice.",
+        starter_messages: [
+            "Ugh, they got my order wrong again. I specifically said oat milk.",
+            "This place is always so crowded on weekends.", 
+            "I've been sitting here for an hour working on this project.",
+            "The wifi here is terrible today.",
+            "Do you know if they have any outlets free? My laptop's dying."
+        ]
+    },
+    
+    asking_questions: {
+        setting: "casual party or social gathering",
+        lesson_goal: "Let the user practice asking good follow-up questions",
+        context_instructions: "Share interesting details when they ask good questions. Give short, boring answers to bad questions. Don't ask questions back immediately - let them do the questioning.",
+        starter_messages: [
+            "I almost didn't come tonight, but my friend dragged me here.",
+            "I don't really know anyone here except the host.",
+            "This music is actually pretty good - not what I expected.",
+            "I'm just grabbing a drink and then probably heading out soon.",
+            "You look like you don't want to be here either."
+        ]
+    },
+    
+    stories: {
+        setting: "casual hangout",
+        lesson_goal: "Get the user to practice telling engaging stories",
+        context_instructions: "Ask about their experiences in a way that fits your personality. React positively to good stories, lose interest in boring ones.",
+        starter_messages: [
+            "So what do you do when you're not... here?",
+            "You seem like you probably have some interesting stories.",
+            "What's the most interesting thing that's happened to you lately?",
+            "You strike me as someone who travels a lot.",
+            "I bet you've got some crazy experiences."
+        ]
+    },
+    
+    active_listening_basic: {
+        setting: "private conversation",
+        lesson_goal: "Test the user's active listening skills", 
+        context_instructions: "Share something with emotion/difficulty. Notice how they respond. Get more open if they listen well, more closed if they don't.",
+        starter_messages: [
+            "You know what's been really getting to me lately?",
+            "I probably shouldn't dump this on you, but...",
+            "Can I be honest about something that's been bothering me?",
+            "I've been dealing with some stuff and it's kind of overwhelming.",
+            "Sorry, I'm probably being too negative, but today has been rough."
+        ]
+    },
+    
+    exaggeration: {
+        setting: "casual social situation",
+        lesson_goal: "Let the user practice playful exaggeration",
+        context_instructions: "React to their attempts at humor naturally based on your personality. Some characters love playfulness, others find it annoying.",
+        starter_messages: [
+            "How's your day going? And don't just say 'fine.'",
+            "You look like someone who's got opinions about things.",
+            "What's your take on this whole situation?",
+            "You seem way too calm for someone at this kind of event.",
+            "I feel like you're holding back - what's really on your mind?"
+        ]
+    }
+};
+
+// Function to build the complete system prompt
+function buildSystemPrompt(characterKey, lessonKey) {
+    const character = characterPersonalities[characterKey];
+    const lesson = lessonContexts[lessonKey];
+    
+    if (!character || !lesson) {
+        throw new Error(`Invalid character (${characterKey}) or lesson (${lessonKey})`);
+    }
+    
+    return `You are ${character.name}, a ${character.core_traits.social_energy} ${character.gender} with a ${character.core_traits.persona} personality.
+
+CORE PERSONALITY:
+- Response style: ${character.core_traits.response_style}
+- Comfort zone: ${character.core_traits.comfort_zone}  
+- Social skill level: ${character.core_traits.social_skill_level}
+
+YOUR INTERESTS: ${character.interests.join(', ')}
+
+KNOWLEDGE LEVELS:
+- Expert in: ${character.knowledge_areas.expert.join(', ')}
+- Casual knowledge: ${character.knowledge_areas.casual.join(', ')}
+- Minimal knowledge: ${character.knowledge_areas.minimal.join(', ')}
+
+BEHAVIORAL RULES:
+${character.behavioral_rules.map(rule => `- ${rule}`).join('\n')}
+
+CURRENT SITUATION:
+- Setting: ${lesson.setting}
+- Context: ${lesson.context_instructions}
+
+IMPORTANT: You are NOT a helpful AI assistant. You are a real person with your own agenda, comfort zones, and reactions. Act naturally as this character would, including being uncomfortable, bored, or annoyed when appropriate.`;
+}
+
+// Store active conversations with their assigned characters
+const activeConversations = new Map();
+
+// Conversation endpoint  
+app.post('/api/chat', async (req, res) => {
+    try {
+        const { message, lesson, history = [] } = req.body;
+        
+        // Create conversation ID (in real app, this would be based on user session)
+        const conversationId = `${lesson}-temp`;
+        
+        // Assign character for new conversations
+        if (!activeConversations.has(conversationId)) {
+            const characterKeys = Object.keys(characterPersonalities);
+            const randomCharacter = characterKeys[Math.floor(Math.random() * characterKeys.length)];
+            activeConversations.set(conversationId, {
+                character: randomCharacter,
+                messageCount: 0
+            });
+        }
+        
+        const conversation = activeConversations.get(conversationId);
+        const systemPrompt = buildSystemPrompt(conversation.character, lesson);
+        const lessonContext = lessonContexts[lesson];
+        
+        // Build messages
+        const messages = [{ role: 'system', content: systemPrompt }];
+        
+        // Add starter message for new conversations
+        if (history.length === 0) {
+            const starterMessage = lessonContext.starter_messages[
+                Math.floor(Math.random() * lessonContext.starter_messages.length)
+            ];
+            messages.push({ role: 'assistant', content: starterMessage });
+        }
+        
+        // Add conversation history
+        history.forEach(msg => {
+            messages.push({ role: msg.role, content: msg.content });
+        });
+        
+        // Add current message
+        messages.push({ role: 'user', content: message });
+        
+        // Update conversation
+        conversation.messageCount++;
+        
+        try {
+            // Call DeepSeek API
+            const response = await axios.post(DEEPSEEK_API_URL, {
+                model: 'deepseek-chat',
+                messages: messages,
+                temperature: 0.8,
+                max_tokens: 100
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${DEEPSEEK_API_KEY}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            const aiResponse = response.data.choices[0].message.content;
+            const feedback = await generateFeedback(message, lesson, history.length);
+            
+            res.json({
+                response: aiResponse,
+                feedback: feedback,
+                character: `${characterPersonalities[conversation.character].name} (${characterPersonalities[conversation.character].type})`
+            });
+            
+        } catch (apiError) {
+            // Handle insufficient balance with character-appropriate mock responses  
+            if (apiError.response?.data?.error?.message === 'Insufficient Balance') {
+                const character = characterPersonalities[conversation.character];
+                const mockResponse = generateCharacterMockResponse(message, character);
+                
+                return res.json({
+                    response: mockResponse,
+                    feedback: "⚠️ DEMO MODE: Add credits for real AI responses.",
+                    character: `${character.name} (${character.type}) - DEMO`
+                });
+            }
+            throw apiError;
+        }
+        
+    } catch (error) {
+        console.error('Chat error:', error);
+        res.status(500).json({ error: 'Failed to get AI response' });
+    }
+});
+
+function generateCharacterMockResponse(message, character) {
+    const responses = {
+        "quiet observer": ["Hmm.", "Interesting.", "Yeah, maybe.", "I see."],
+        "laid back": ["Cool.", "Yeah, fair.", "Sure thing.", "Alright."],
+        "bubbly shy": ["Oh wow!", "Really?", "That's interesting!", "I don't know much about that..."],
+        "self-centered": ["That reminds me of...", "I've done that too.", "Yeah, I know about that.", "Similar thing happened to me."],
+        "curious": ["Tell me more.", "What was that like?", "How so?", "Really? Why?"]
+    };
+    
+    const characterResponses = responses[character.type] || responses["laid back"];
+    return characterResponses[Math.floor(Math.random() * characterResponses.length)];
+}
+
+// Generate instructor feedback based on lesson and user performance
+async function generateFeedback(userMessage, lesson, exchangeCount) {
+    if (exchangeCount < 4) return null; // Only give feedback after a few exchanges
+    
+    const feedbackPrompts = {
+        basic_weaving: `Analyze this message for weaving practice: "${userMessage}"
+        
+Did they pick up on a word/phrase from the previous message and build on it? Give specific, encouraging feedback about their weaving attempt. Keep it under 50 words.`,
+        
+        asking_questions: `Analyze this question: "${userMessage}"
+
+Rate the question quality:
+- Is it open-ended?
+- Does it show genuine curiosity?
+- Will it lead to interesting conversation?
+
+Give specific feedback in under 50 words.`,
+        
+        stories: `Analyze this story attempt: "${userMessage}"
+
+Does it have:
+- A clear beginning/middle/end?
+- Interesting details?
+- Emotional engagement?
+
+Give encouraging, specific feedback in under 50 words.`,
+        
+        active_listening_basic: `Analyze this active listening response: "${userMessage}"
+
+Did they:
+- Acknowledge what was shared?
+- Show empathy?
+- Ask relevant follow-up?
+
+Give specific feedback in under 50 words.`,
+        
+        exaggeration: `Analyze this for playful exaggeration: "${userMessage}"
+
+Did they use:
+- Dramatic language?
+- Playful over-the-top descriptions?
+- Fun energy?
+
+Give encouraging feedback about their playfulness in under 50 words.`
+    };
+    
+    const prompt = feedbackPrompts[lesson];
+    if (!prompt) return "Great job practicing!";
+    
+    try {
+        const response = await axios.post(DEEPSEEK_API_URL, {
+            model: 'deepseek-chat',
+            messages: [
+                { role: 'system', content: 'You are an encouraging social skills instructor. Give specific, actionable feedback.' },
+                { role: 'user', content: prompt }
+            ],
+            temperature: 0.7,
+            max_tokens: 80
+        }, {
+            headers: {
+                'Authorization': `Bearer ${DEEPSEEK_API_KEY}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        return response.data.choices[0].message.content;
+    } catch (error) {
+        console.error('Feedback generation error:', error);
+        return "Great job practicing! Keep working on this skill.";
+    }
+}
+
+// Serve the main page
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Test endpoint
+app.get('/api/test', (req, res) => {
+    res.json({ message: 'Yaptitude API with DeepSeek is working!' });
+});
+
+// Start server
+app.listen(PORT, () => {
+    console.log(`Yaptitude server running on http://localhost:${PORT}`);
+    console.log(`Using DeepSeek API for conversations`);
+});

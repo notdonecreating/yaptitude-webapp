@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yaptitude - Learn Social Skills</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🦋 Yaptitude</h1>
+            <p>Transform into a social butterfly</p>
+        </header>
+
+        <!-- Lesson Selection -->
+        <div class="lesson-selector">
+            <h2>Choose Your Lesson</h2>
+            <select id="lessonSelect">
+                <option value="basic_weaving">Basic Weaving</option>
+                <option value="asking_questions">Asking Questions</option>
+                <option value="stories">Stories</option>
+                <option value="active_listening_basic">Active Listening</option>
+                <option value="exaggeration">Playful Exaggeration</option>
+            </select>
+            <button id="startLesson">Start Practice</button>
+        </div>
+
+        <!-- Chat Interface -->
+        <div class="chat-container" id="chatContainer" style="display: none;">
+            <div class="chat-header">
+                <h3 id="currentLesson">Lesson: Basic Weaving</h3>
+                <div class="mood-indicator">
+                    <span id="characterMood">😐</span>
+                    <span id="characterName">Alex</span>
+                </div>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages">
+                <!-- Messages will appear here -->
+            </div>
+            
+            <div class="chat-input">
+                <input type="text" id="messageInput" placeholder="Type your response...">
+                <button id="sendMessage">Send</button>
+            </div>
+        </div>
+
+        <!-- Feedback Panel -->
+        <div class="feedback-panel" id="feedbackPanel" style="display: none;">
+            <h3>Instructor Feedback</h3>
+            <div id="feedbackContent">
+                <!-- Feedback will appear here -->
+            </div>
+            <button id="continuePractice">Continue</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
