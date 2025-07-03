@@ -257,6 +257,10 @@ KNOWLEDGE LEVELS:
 
 BEHAVIORAL RULES:
 ${character.behavioral_rules.map(rule => `- ${rule}`).join('\n')}
+- IMPORTANT: Maintain your own speech patterns and vocabulary regardless of how the user talks
+- Do NOT mirror the user's slang, accent, or speaking style (Only what fits YOUR personality)
+- Stay authentic to your character's background and education level
+- React to what they SAY, not how they say it
 
 CURRENT SITUATION:
 - Setting: ${lesson.setting}
@@ -278,6 +282,15 @@ const activeConversations = new Map();
 app.post('/api/chat', async (req, res) => {
     try {
         const { message, lesson, history = [] } = req.body;
+        
+        if (!DEEPSEEK_API_KEY) {
+            return res.status(500).json({ error: 'DeepSeek API key not configured' });
+        }
+        
+        const lessonConfig = lessonContexts[lesson];
+        if (!lessonConfig) {
+            return res.status(400).json({ error: 'Unknown lesson type' });
+        }
         
         // Create conversation ID (in real app, this would be based on user session)
         const conversationId = `${lesson}-temp`;
@@ -319,7 +332,9 @@ app.post('/api/chat', async (req, res) => {
         conversation.messageCount++;
         
         try {
-            // Call DeepSeek API
+            console.log('Calling DeepSeek API...'); // Debug
+            
+            // Call DeepSeek API with timeout and retry logic
             const response = await axios.post(DEEPSEEK_API_URL, {
                 model: 'deepseek-chat',
                 messages: messages,
@@ -329,17 +344,15 @@ app.post('/api/chat', async (req, res) => {
                 headers: {
                     'Authorization': `Bearer ${DEEPSEEK_API_KEY}`,
                     'Content-Type': 'application/json'
-                }
+                },
+                timeout: 30000, // 30 second timeout
+                retry: 1 // Don't retry on timeout
             });
             
+            console.log('DeepSeek API response received'); // Debug
+            
             const aiResponse = response.data.choices[0].message.content;
-            const feedback = await generateFeedback(
-                message, 
-                lesson, 
-                [...history, { role: 'user', content: message }], // Full conversation including current message
-                character, 
-                aiResponse // The character's actual response with emotions
-            );
+            const feedback = null; // Skip feedback for now to avoid double API calls
             
             res.json({
                 response: aiResponse,
@@ -348,7 +361,23 @@ app.post('/api/chat', async (req, res) => {
             });
             
         } catch (apiError) {
-            // Handle insufficient balance with character-appropriate mock responses  
+            console.error('DeepSeek API error:', apiError.message);
+            
+            // Handle different types of API errors
+            if (apiError.code === 'ECONNRESET' || apiError.code === 'ECONNABORTED' || apiError.message.includes('aborted')) {
+                console.log('Connection issue with DeepSeek - using fallback response');
+                
+                // Use character-specific fallback
+                const character = characterPersonalities[conversation.character];
+                const fallbackResponse = generateCharacterMockResponse(message, character);
+                
+                return res.json({
+                    response: fallbackResponse,
+                    feedback: "⚠️ Connection issue - using fallback response. Try again for AI response.",
+                    character: `${character.name} (${character.type}) - FALLBACK`
+                });
+            }
+            
             if (apiError.response?.data?.error?.message === 'Insufficient Balance') {
                 const character = characterPersonalities[conversation.character];
                 const mockResponse = generateCharacterMockResponse(message, character);
@@ -359,14 +388,100 @@ app.post('/api/chat', async (req, res) => {
                     character: `${character.name} (${character.type}) - DEMO`
                 });
             }
+            
             throw apiError;
         }
         
     } catch (error) {
-        console.error('Chat error:', error);
-        res.status(500).json({ error: 'Failed to get AI response' });
+        console.error('Chat error:', error.message);
+        res.status(500).json({ 
+            error: 'Failed to get AI response',
+            details: error.message
+        });
     }
 });
+
+// Coach feedback endpoint
+app.post('/api/coach', async (req, res) => {
+    try {
+        const { feedbackType, lesson, history } = req.body;
+        
+        if (!DEEPSEEK_API_KEY) {
+            return res.json({
+                feedback: "⚠️ DEMO MODE: Coach feedback would analyze your full conversation and give specific advice."
+            });
+        }
+        
+        // Get the character from the active conversation
+        const conversationId = `${lesson}-temp`;
+        const conversation = activeConversations.get(conversationId);
+        
+        if (!conversation) {
+            return res.json({
+                feedback: "Start a conversation first, then I can give you feedback!"
+            });
+        }
+        
+        const character = characterPersonalities[conversation.character];
+        const feedback = await generateCoachFeedback(feedbackType, lesson, history, character);
+        
+        res.json({ feedback });
+        
+    } catch (error) {
+        console.error('Coach feedback error:', error);
+        res.status(500).json({ error: 'Failed to get coach feedback' });
+    }
+});
+
+// Generate different types of coach feedback
+async function generateCoachFeedback(feedbackType, lesson, conversationHistory, character) {
+    const feedbackPrompts = {
+        instant: `Analyze this ongoing conversation and give quick, encouraging feedback on how the student is doing so far.`,
+        
+        advice: `Give specific advice for what the student should try in their next response to improve their ${lesson.replace('_', ' ')} skills.`,
+        
+        end_practice: `Provide comprehensive end-of-practice feedback. Cover what they did well, what to improve, and specific next steps.`,
+        
+        final_review: `Give a final review of the entire practice session. Summarize key learning points and encourage continued practice.`
+    };
+    
+    const basePrompt = `You are an expert social skills coach reviewing a practice conversation.
+
+LESSON FOCUS: ${lesson.replace('_', ' ')}
+PRACTICE PARTNER: ${character.name} (${character.type})
+
+FULL CONVERSATION:
+${conversationHistory.map((msg, i) => {
+    const speaker = msg.role === 'user' ? 'STUDENT' : character.name.toUpperCase();
+    return `${speaker}: ${msg.content}`;
+}).join('\n')}
+
+COACHING REQUEST: ${feedbackPrompts[feedbackType]}
+
+Keep feedback encouraging but honest. Be specific about what they did well and what to improve. Under 150 words.`;
+
+    try {
+        const response = await axios.post(DEEPSEEK_API_URL, {
+            model: 'deepseek-chat',
+            messages: [
+                { role: 'system', content: 'You are an encouraging social skills coach who gives specific, actionable feedback.' },
+                { role: 'user', content: basePrompt }
+            ],
+            temperature: 0.7,
+            max_tokens: 200
+        }, {
+            headers: {
+                'Authorization': `Bearer ${DEEPSEEK_API_KEY}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        return response.data.choices[0].message.content;
+    } catch (error) {
+        console.error('Coach feedback error:', error);
+        return "Great job practicing! Keep working on building natural conversations.";
+    }
+}
 
 function generateCharacterMockResponse(message, character) {
     const responses = {

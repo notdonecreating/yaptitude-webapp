@@ -11,6 +11,14 @@ const feedbackContent = document.getElementById('feedbackContent');
 const continuePracticeBtn = document.getElementById('continuePractice');
 const currentLessonTitle = document.getElementById('currentLesson');
 
+// Coach elements
+const callCoachBtn = document.getElementById('callCoach');
+const coachPanel = document.getElementById('coachPanel');
+const getInstantFeedbackBtn = document.getElementById('getInstantFeedback');
+const getAdviceBtn = document.getElementById('getAdvice');
+const endPracticeFeedbackBtn = document.getElementById('endPracticeFeedback');
+const closeCoachBtn = document.getElementById('closeCoach');
+
 // Current lesson data
 let currentLesson = '';
 let conversationHistory = [];
@@ -20,6 +28,13 @@ startLessonBtn.addEventListener('click', startLesson);
 sendMessageBtn.addEventListener('click', sendMessage);
 endLessonBtn.addEventListener('click', endLesson);
 continuePracticeBtn.addEventListener('click', hideFeedback);
+
+// Coach event listeners
+callCoachBtn.addEventListener('click', toggleCoachPanel);
+getInstantFeedbackBtn.addEventListener('click', () => requestCoachFeedback('instant'));
+getAdviceBtn.addEventListener('click', () => requestCoachFeedback('advice'));
+endPracticeFeedbackBtn.addEventListener('click', () => requestCoachFeedback('end_practice'));
+closeCoachBtn.addEventListener('click', hideCoachPanel);
 
 // Allow Enter key to send messages
 messageInput.addEventListener('keypress', (e) => {
@@ -63,7 +78,13 @@ async function sendMessage() {
     conversationHistory.push({ role: 'user', content: message });
     
     // Show typing indicator
-    addMessage('ai', 'Thinking...', 'typing');
+        addMessage('ai', 'Thinking...', 'typing');
+
+        // Add timeout protection
+        const timeoutId = setTimeout(() => {
+            removeTypingMessage();
+            addMessage('ai', 'Sorry, that took too long. Try a shorter message?');
+        }, 35000); // 35 seconds
     
     try {
         // Send to backend
@@ -80,7 +101,10 @@ async function sendMessage() {
         });
         
         const data = await response.json();
-        
+
+        // Clear timeout since we got a response
+        clearTimeout(timeoutId);
+
         // Remove typing indicator
         removeTypingMessage();
         
@@ -112,7 +136,20 @@ async function sendMessage() {
 function addMessage(sender, content, type = '') {
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${sender} ${type}`;
-    messageDiv.textContent = content;
+    
+    // Special formatting for coach messages
+    if (sender === 'coach') {
+        const coachIcon = document.createElement('span');
+        coachIcon.textContent = '🏆 Coach: ';
+        coachIcon.style.fontWeight = 'bold';
+        messageDiv.appendChild(coachIcon);
+        
+        const contentSpan = document.createElement('span');
+        contentSpan.textContent = content;
+        messageDiv.appendChild(contentSpan);
+    } else {
+        messageDiv.textContent = content;
+    }
     
     chatMessages.appendChild(messageDiv);
     chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -139,13 +176,26 @@ function hideFeedback() {
 
 // End lesson
 function endLesson() {
-    // Show lesson selector, hide chat
-    document.querySelector('.lesson-selector').style.display = 'block';
-    chatContainer.style.display = 'none';
-    feedbackPanel.style.display = 'none';
-    
-    // Reset conversation
-    conversationHistory = [];
+    // Get final feedback if there was a conversation
+    if (conversationHistory.length > 0) {
+        requestCoachFeedback('final_review');
+        
+        // Delay showing lesson selector to let them read feedback
+        setTimeout(() => {
+            document.querySelector('.lesson-selector').style.display = 'block';
+            chatContainer.style.display = 'none';
+            feedbackPanel.style.display = 'none';
+            hideCoachPanel();
+            conversationHistory = [];
+        }, 3000);
+    } else {
+        // No conversation, just end immediately
+        document.querySelector('.lesson-selector').style.display = 'block';
+        chatContainer.style.display = 'none';
+        feedbackPanel.style.display = 'none';
+        hideCoachPanel();
+        conversationHistory = [];
+    }
 }
 
 // Format lesson name for display
@@ -301,3 +351,58 @@ function updateMoodIndicator(emoji, characterInfo) {
         nameElement.textContent = name;
     }
 }
+
+// Toggle coach panel
+function toggleCoachPanel() {
+    const isVisible = coachPanel.style.display === 'block';
+    coachPanel.style.display = isVisible ? 'none' : 'block';
+}
+
+// Hide coach panel
+function hideCoachPanel() {
+    coachPanel.style.display = 'none';
+}
+
+// Request different types of coach feedback
+async function requestCoachFeedback(feedbackType) {
+    if (conversationHistory.length === 0) {
+        addMessage('coach', 'Start a conversation first, then I can give you feedback!');
+        hideCoachPanel();
+        return;
+    }
+    
+    // Show loading
+    addMessage('coach', 'Analyzing your conversation...', 'typing');
+    hideCoachPanel();
+    
+    try {
+        const response = await fetch('/api/coach', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                feedbackType: feedbackType,
+                lesson: currentLesson,
+                history: conversationHistory
+            })
+        });
+        
+        const data = await response.json();
+        
+        // Remove typing indicator
+        removeTypingMessage();
+        
+        // Add coach feedback
+        addMessage('coach', data.feedback);
+        
+    } catch (error) {
+        console.error('Coach error:', error);
+        removeTypingMessage();
+        addMessage('coach', 'Sorry, I had trouble analyzing your conversation. Keep practicing!');
+    }
+}
+
+
+
+

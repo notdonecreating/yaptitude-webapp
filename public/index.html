@@ -35,6 +35,7 @@
                     <span id="characterMood">😐</span>
                     <span id="characterName">Alex</span>
                 </div>
+                <button id="endLesson">End Lesson</button>
             </div>
             
             <div class="chat-messages" id="chatMessages">
@@ -44,6 +45,17 @@
             <div class="chat-input">
                 <input type="text" id="messageInput" placeholder="Type your response...">
                 <button id="sendMessage">Send</button>
+                <button id="callCoach">🏆 Coach</button>
+            </div>
+            
+            <!-- Coach panel (hidden by default) -->
+            <div class="coach-panel" id="coachPanel" style="display: none;">
+                <div class="coach-options">
+                    <button id="getInstantFeedback">How am I doing?</button>
+                    <button id="getAdvice">Give me advice</button>
+                    <button id="endPracticeFeedback">End practice & review</button>
+                    <button id="closeCoach">Close</button>
+                </div>
             </div>
         </div>
 
