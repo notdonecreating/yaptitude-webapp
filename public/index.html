@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yaptitude - Learn Social Skills</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
     <div class="container">
@@ -14,61 +14,105 @@
             <p>Transform into a social butterfly</p>
         </header>
 
-        <!-- Lesson Selection -->
-        <div class="lesson-selector">
-            <h2>Choose Your Lesson</h2>
-            <select id="lessonSelect">
-                <option value="basic_weaving">Basic Weaving</option>
-                <option value="asking_questions">Asking Questions</option>
-                <option value="stories">Stories</option>
-                <option value="active_listening_basic">Active Listening</option>
-                <option value="exaggeration">Playful Exaggeration</option>
-            </select>
-            <button id="startLesson">Start Practice</button>
-        </div>
-
-        <!-- Chat Interface -->
-        <div class="chat-container" id="chatContainer" style="display: none;">
-            <div class="chat-header">
-                <h3 id="currentLesson">Lesson: Basic Weaving</h3>
-                <div class="mood-indicator">
-                    <span id="characterMood">😐</span>
-                    <span id="characterName">Alex</span>
-                </div>
-                <button id="endLesson">End Lesson</button>
-            </div>
-            
-            <div class="chat-messages" id="chatMessages">
-                <!-- Messages will appear here -->
-            </div>
-            
-            <div class="chat-input">
-                <input type="text" id="messageInput" placeholder="Type your response...">
-                <button id="sendMessage">Send</button>
-                <button id="callCoach">🏆 Coach</button>
-            </div>
-            
-            <!-- Coach panel (hidden by default) -->
-            <div class="coach-panel" id="coachPanel" style="display: none;">
-                <div class="coach-options">
-                    <button id="getInstantFeedback">How am I doing?</button>
-                    <button id="getAdvice">Give me advice</button>
-                    <button id="endPracticeFeedback">End practice & review</button>
-                    <button id="closeCoach">Close</button>
+        <!-- Progress Overview -->
+        <div class="progress-overview" id="progressOverview" style="display: none;">
+            <div class="progress-card">
+                <h3>Your Progress</h3>
+                <div class="progress-stats">
+                    <div class="stat">
+                        <span class="stat-number" id="conversationCount">0</span>
+                        <span class="stat-label">Conversations</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="currentStreak">0</span>
+                        <span class="stat-label">Day Streak</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="lessonsCompleted">0</span>
+                        <span class="stat-label">Lessons Completed</span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Feedback Panel -->
-        <div class="feedback-panel" id="feedbackPanel" style="display: none;">
-            <h3>Instructor Feedback</h3>
-            <div id="feedbackContent">
-                <!-- Feedback will appear here -->
+        <!-- Main Navigation -->
+        <div class="main-nav">
+            <div class="nav-card lessons-card" id="lessonsCard">
+                <div class="nav-icon">📚</div>
+                <h2>Lessons</h2>
+                <p>Practice specific social skills with guided exercises</p>
+                <div class="nav-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="lessonsProgress" style="width: 0%"></div>
+                    </div>
+                    <span class="progress-text" id="lessonsProgressText">Get started</span>
+                </div>
+                <button class="nav-button">Start Learning</button>
             </div>
-            <button id="continuePractice">Continue</button>
+
+            <div class="nav-card scenarios-card" id="scenariosCard">
+                <div class="nav-icon">🎭</div>
+                <h2>Scenarios</h2>
+                <p>Practice in real-world situations with different characters</p>
+                <div class="nav-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="scenariosProgress" style="width: 0%"></div>
+                    </div>
+                    <span class="progress-text" id="scenariosProgressText">Complete a lesson first</span>
+                </div>
+                <button class="nav-button" id="scenariosButton" disabled>Start Practicing</button>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="quick-stats" id="quickStats" style="display: none;">
+            <h3>Recent Activity</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-label">Practice Time</span>
+                    <span class="stat-value" id="practiceTime">0 min</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Favorite Character</span>
+                    <span class="stat-value" id="favoriteCharacter">None yet</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Next Lesson</span>
+                    <span class="stat-value" id="nextLesson">Basic Weaving</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Achievements</span>
+                    <span class="stat-value" id="achievementCount">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Achievement Notifications -->
+        <div class="achievement-notification" id="achievementNotification" style="display: none;">
+            <div class="achievement-content">
+                <div class="achievement-icon">🏆</div>
+                <div class="achievement-text">
+                    <h4>Achievement Unlocked!</h4>
+                    <p id="achievementDescription">Great job!</p>
+                </div>
+                <button class="achievement-close" id="achievementClose">×</button>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <p>Loading your progress...</p>
+        </div>
+
+        <!-- Error State -->
+        <div class="error-message" id="errorMessage" style="display: none;">
+            <h3>Oops! Something went wrong</h3>
+            <p id="errorText">Failed to load your progress.</p>
+            <button id="retryButton" class="retry-button">Try Again</button>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="js/homepage.js"></script>
 </body>
 </html>

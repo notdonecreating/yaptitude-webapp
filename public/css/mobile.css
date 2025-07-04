@@ -1,0 +1,507 @@
+/* Mobile responsive fixes and optimizations */
+
+/* Base mobile styles */
+@media (max-width: 768px) {
+    
+    /* Container adjustments */
+    .container {
+        padding: 10px;
+    }
+    
+    /* Header adjustments */
+    .header {
+        padding: 20px 15px;
+        text-align: center;
+    }
+    
+    .header h1 {
+        font-size: 2rem;
+    }
+    
+    .header-content {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+    
+    .back-button {
+        align-self: flex-start;
+        margin-bottom: 10px;
+    }
+    
+    /* Navigation cards */
+    .main-nav {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .nav-card {
+        padding: 20px;
+    }
+    
+    .nav-card h2 {
+        font-size: 1.4rem;
+    }
+    
+    /* Progress overview */
+    .progress-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    .stat-number {
+        font-size: 1.8rem;
+    }
+    
+    /* Quick stats */
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    /* Lessons specific mobile styles */
+    .lessons-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 15px;
+    }
+    
+    .lesson-card {
+        padding: 15px;
+    }
+    
+    .lesson-levels {
+        justify-content: center;
+        gap: 8px;
+    }
+    
+    .level-badge {
+        padding: 4px 8px;
+        font-size: 0.7rem;
+    }
+    
+    /* Practice interface mobile */
+    .practice-header {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px;
+    }
+    
+    .lesson-info,
+    .practice-controls {
+        text-align: center;
+    }
+    
+    .practice-controls {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+    }
+    
+    .coach-button,
+    .end-button {
+        flex: 1;
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+    
+    /* Lesson instructions mobile */
+    .lesson-instructions {
+        margin: 15px;
+        padding: 15px;
+    }
+    
+    .lesson-instructions h3 {
+        font-size: 1.1rem;
+    }
+    
+    .lesson-instructions ul {
+        padding-left: 20px;
+    }
+    
+    .lesson-instructions li {
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+    }
+    
+    /* Chat interface mobile */
+    .chat-container {
+        height: calc(100vh - 200px);
+        min-height: 400px;
+    }
+    
+    .character-info {
+        padding: 12px 15px;
+    }
+    
+    .character-avatar {
+        font-size: 1.8rem;
+    }
+    
+    .character-name {
+        font-size: 0.9rem;
+    }
+    
+    .character-mood {
+        font-size: 1.2rem;
+    }
+    
+    .chat-messages {
+        padding: 15px;
+    }
+    
+    .message {
+        padding: 10px 14px;
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+    
+    .message.user {
+        max-width: 85%;
+    }
+    
+    .message.ai {
+        max-width: 90%;
+    }
+    
+    /* Chat input mobile */
+    .chat-input {
+        padding: 15px;
+    }
+    
+    .input-container {
+        gap: 8px;
+    }
+    
+    .input-container textarea {
+        font-size: 16px; /* Prevents zoom on iOS */
+        min-height: 44px; /* Touch target size */
+    }
+    
+    .send-button {
+        min-width: 44px;
+        min-height: 44px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .input-help {
+        margin-top: 8px;
+        font-size: 0.8rem;
+    }
+    
+    /* Coach panel mobile */
+    .coach-panel {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        border-top: 1px solid #ddd;
+        border-radius: 15px 15px 0 0;
+        padding: 20px;
+        box-shadow: 0 -5px 20px rgba(0,0,0,0.15);
+        z-index: 1000;
+    }
+    
+    .coach-options {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .coach-option {
+        padding: 12px;
+        font-size: 0.9rem;
+    }
+    
+    /* Modal mobile adjustments */
+    .modal {
+        padding: 20px;
+        align-items: flex-end;
+    }
+    
+    .modal-content {
+        width: 100%;
+        max-width: none;
+        max-height: 80vh;
+        border-radius: 15px 15px 0 0;
+        overflow-y: auto;
+    }
+    
+    .modal-header {
+        padding: 20px 20px 15px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .modal-body {
+        padding: 20px;
+    }
+    
+    .feedback-actions,
+    .results-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 20px;
+    }
+    
+    .continue-button,
+    .primary-button,
+    .secondary-button {
+        width: 100%;
+        padding: 12px;
+        font-size: 1rem;
+    }
+    
+    /* Loading overlay mobile */
+    .loading-overlay {
+        padding: 20px;
+    }
+    
+    .loading-spinner {
+        width: 40px;
+        height: 40px;
+    }
+    
+    /* Achievement notification mobile */
+    .achievement-notification {
+        position: fixed;
+        top: 20px;
+        left: 15px;
+        right: 15px;
+        z-index: 1001;
+    }
+    
+    .achievement-content {
+        padding: 15px;
+    }
+    
+    .achievement-text h4 {
+        font-size: 1rem;
+    }
+    
+    .achievement-text p {
+        font-size: 0.85rem;
+    }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+    
+    /* Even smaller text and spacing */
+    .header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .nav-card {
+        padding: 15px;
+    }
+    
+    .nav-card h2 {
+        font-size: 1.2rem;
+    }
+    
+    .nav-card p {
+        font-size: 0.85rem;
+    }
+    
+    /* Single column layouts */
+    .progress-stats,
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .lesson-card,
+    .scenario-card {
+        padding: 12px;
+    }
+    
+    /* Smaller buttons */
+    .nav-button,
+    .lesson-start-btn,
+    .scenario-select-btn {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+    
+    /* Compact chat */
+    .chat-messages {
+        padding: 10px;
+    }
+    
+    .message {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+    }
+    
+    .character-info {
+        padding: 10px 12px;
+    }
+    
+    .chat-input {
+        padding: 12px;
+    }
+    
+    /* Smaller modal content */
+    .modal-header h3 {
+        font-size: 1.2rem;
+    }
+    
+    .modal-body {
+        padding: 15px;
+        font-size: 0.9rem;
+    }
+    
+    /* Practice controls stack */
+    .practice-controls {
+        flex-direction: column;
+    }
+    
+    .coach-button,
+    .end-button {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+}
+
+/* Landscape mobile orientation */
+@media (max-width: 768px) and (orientation: landscape) {
+    
+    /* Reduce header size in landscape */
+    .header {
+        padding: 15px;
+    }
+    
+    .header h1 {
+        font-size: 1.5rem;
+    }
+    
+    /* Optimize chat for landscape */
+    .chat-container {
+        height: calc(100vh - 120px);
+    }
+    
+    .practice-header {
+        padding: 10px 15px;
+    }
+    
+    .lesson-instructions {
+        margin: 10px 15px;
+        padding: 12px;
+    }
+    
+    .chat-messages {
+        padding: 10px 15px;
+    }
+    
+    .chat-input {
+        padding: 10px 15px;
+    }
+    
+    /* Horizontal button layout in landscape */
+    .practice-controls {
+        flex-direction: row;
+    }
+}
+
+/* Touch-specific optimizations */
+@media (hover: none) and (pointer: coarse) {
+    
+    /* Larger touch targets */
+    .nav-button,
+    .lesson-start-btn,
+    .scenario-select-btn,
+    .send-button,
+    .coach-button,
+    .end-button {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    /* Remove hover effects on touch devices */
+    .lesson-card:hover,
+    .scenario-card:hover,
+    .character-card:hover,
+    .mission-card:hover {
+        transform: none;
+    }
+    
+    /* Larger input areas */
+    .input-container textarea {
+        min-height: 44px;
+        padding: 12px;
+    }
+    
+    /* Better spacing for touch */
+    .coach-options {
+        gap: 15px;
+    }
+    
+    .coach-option {
+        min-height: 44px;
+        padding: 12px 16px;
+    }
+    
+    /* Remove outline on touch */
+    button:focus,
+    input:focus,
+    textarea:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+    }
+}
+
+/* Dark mode considerations for mobile */
+@media (prefers-color-scheme: dark) and (max-width: 768px) {
+    
+    .modal-content {
+        background: #1a1a1a;
+        color: white;
+    }
+    
+    .coach-panel {
+        background: #1a1a1a;
+        border-top-color: #333;
+    }
+    
+    .achievement-notification .achievement-content {
+        background: #1a1a1a;
+        color: white;
+    }
+}
+
+/* Prevent zoom on input focus (iOS Safari) */
+@supports (-webkit-overflow-scrolling: touch) {
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    textarea,
+    select {
+        font-size: 16px !important;
+    }
+}
+
+/* High DPI mobile displays */
+@media (-webkit-min-device-pixel-ratio: 2) and (max-width: 768px),
+       (min-resolution: 192dpi) and (max-width: 768px) {
+    
+    /* Crisp borders and shadows */
+    .lesson-card,
+    .scenario-card,
+    .character-card,
+    .mission-card {
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    /* Sharper icons */
+    .nav-icon,
+    .scenario-icon,
+    .character-avatar {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+}

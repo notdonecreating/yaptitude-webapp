@@ -1,0 +1,374 @@
+{
+    "categories": {
+      "chat": {
+        "name": "Chat",
+        "description": "Keep conversations flowing naturally",
+        "color": "#667eea",
+        "icon": "💬"
+      },
+      "yap": {
+        "name": "Yap", 
+        "description": "Express yourself clearly and engagingly",
+        "color": "#ffa500",
+        "icon": "🎤"
+      },
+      "vibe": {
+        "name": "Vibe",
+        "description": "Connect and build rapport with others",
+        "color": "#28a745",
+        "icon": "🤝"
+      },
+      "play": {
+        "name": "Play",
+        "description": "Add humor and playfulness to conversations",
+        "color": "#e83e8c",
+        "icon": "🎭"
+      }
+    },
+    "lessons": {
+      "basic_weaving": {
+        "id": "basic_weaving",
+        "title": "Basic Weaving",
+        "category": "chat",
+        "description": "Learn to pick up conversation threads and keep talks flowing",
+        "difficulty": "beginner",
+        "estimated_time": "10-15 minutes",
+        "prerequisite": null,
+        "unlocks": ["directed_weaving", "asking_questions"],
+        "levels": {
+          "bronze": {
+            "title": "Thread Recognition",
+            "description": "Practice identifying and picking up single words or phrases to continue conversation",
+            "learning_objective": "Take one word/phrase from what someone says and build on it",
+            "success_criteria": [
+              "Successfully weave from at least 3 different conversation threads",
+              "Use transition phrases like 'Speaking of...' or 'That reminds me...'",
+              "Maintain natural conversation flow"
+            ],
+            "practice_prompts": [
+              "Your practice partner will mention several topics. Pick one word or phrase and weave a response around it.",
+              "Try using phrases like 'Speaking of...', 'That reminds me...', 'On the topic of...'",
+              "Focus on making smooth transitions between topics"
+            ],
+            "coach_focus": "Look for: smooth transitions, natural connections, variety in weaving techniques"
+          },
+          "silver": {
+            "title": "Multiple Thread Weaving", 
+            "description": "Handle multiple conversation threads and choose the most interesting ones",
+            "learning_objective": "Select the best threads from complex statements and weave skillfully",
+            "success_criteria": [
+              "Identify and choose the most engaging thread from multiple options",
+              "Weave without always using transition tags",
+              "Demonstrate strategic thread selection"
+            ],
+            "practice_prompts": [
+              "Your partner will give you statements with multiple possible threads",
+              "Practice choosing the most interesting or relevant thread",
+              "Try weaving without always saying 'Speaking of...' - make it more natural"
+            ],
+            "coach_focus": "Look for: strategic thinking, natural transitions, engaging thread choices"
+          },
+          "gold": {
+            "title": "Advanced Weaving",
+            "description": "Master seamless topic transitions and emotional/conceptual weaving",
+            "learning_objective": "Weave based on emotions, concepts, and underlying meanings",
+            "success_criteria": [
+              "Weave from emotional tone rather than just words",
+              "Make completely seamless transitions",
+              "Demonstrate mastery of conversational flow"
+            ],
+            "practice_prompts": [
+              "Practice weaving from the feeling or concept behind what someone says",
+              "Make transitions so smooth that topic changes feel completely natural",
+              "Focus on the deeper meaning, not just surface words"
+            ],
+            "coach_focus": "Look for: emotional intelligence, seamless flow, conceptual connections"
+          }
+        },
+        "character_instructions": {
+          "role": "conversation_partner",
+          "behavior": "Give responses with multiple potential weaving threads. React positively to good weaving attempts and seem confused by poor ones.",
+          "response_style": "Provide rich, multi-layered statements with clear threading opportunities"
+        }
+      },
+      "asking_questions": {
+        "id": "asking_questions", 
+        "title": "Asking Questions",
+        "category": "chat",
+        "description": "Master the art of inquiry to deepen conversations",
+        "difficulty": "beginner",
+        "estimated_time": "10-15 minutes",
+        "prerequisite": null,
+        "unlocks": ["active_listening_basic", "value_highlighting"],
+        "levels": {
+          "bronze": {
+            "title": "Basic Follow-ups",
+            "description": "Learn to ask simple follow-up questions that show interest",
+            "learning_objective": "Ask questions that encourage people to share more",
+            "success_criteria": [
+              "Ask at least 5 follow-up questions during practice",
+              "Acknowledge responses before asking next question",
+              "Show genuine curiosity"
+            ],
+            "practice_prompts": [
+              "Your partner will share experiences - ask questions to learn more",
+              "Remember to acknowledge what they said before asking your next question",
+              "Focus on showing genuine interest in their experiences"
+            ],
+            "coach_focus": "Look for: acknowledgment before questions, genuine curiosity, natural flow"
+          },
+          "silver": {
+            "title": "Open-Ended Exploration",
+            "description": "Ask questions that open up deeper conversation",
+            "learning_objective": "Use open-ended questions to explore topics thoroughly",
+            "success_criteria": [
+              "Ask mostly open-ended rather than yes/no questions",
+              "Dive deeper into interesting topics",
+              "Balance questions with your own sharing"
+            ],
+            "practice_prompts": [
+              "Practice asking 'How...', 'What...', 'Why...' questions instead of yes/no",
+              "When something interests you, dig deeper with follow-ups",
+              "Share some of your own experiences too - don't just interrogate"
+            ],
+            "coach_focus": "Look for: open-ended questions, depth exploration, balanced sharing"
+          },
+          "gold": {
+            "title": "Strategic Questioning",
+            "description": "Use questions to guide conversations toward meaningful topics",
+            "learning_objective": "Strategically use questions to create engaging dialogue",
+            "success_criteria": [
+              "Guide conversation toward interesting topics through questions",
+              "Use questions to help others reflect and share meaningfully", 
+              "Demonstrate advanced listening and responding skills"
+            ],
+            "practice_prompts": [
+              "Use questions to steer the conversation toward topics you both find engaging",
+              "Ask questions that help your partner reflect or share something meaningful",
+              "Show mastery by making the conversation better through your questions"
+            ],
+            "coach_focus": "Look for: strategic guidance, meaningful outcomes, masterful flow"
+          }
+        },
+        "character_instructions": {
+          "role": "conversation_partner",
+          "behavior": "Share experiences and respond positively to good questions. Give short, boring answers to poor questions.",
+          "response_style": "Provide opportunities for questioning while rewarding good inquiry"
+        }
+      },
+      "stories": {
+        "id": "stories",
+        "title": "Stories",
+        "category": "yap", 
+        "description": "Tell engaging stories that captivate your audience",
+        "difficulty": "intermediate",
+        "estimated_time": "15-20 minutes",
+        "prerequisite": "basic_weaving",
+        "unlocks": ["debates", "pitches"],
+        "levels": {
+          "bronze": {
+            "title": "Mini-Stories",
+            "description": "Structure short stories with beginning, middle, and end",
+            "learning_objective": "Tell coherent mini-stories with clear structure",
+            "success_criteria": [
+              "Include clear beginning, middle, and end",
+              "Keep stories concise but complete",
+              "Make everyday experiences into engaging mini-stories"
+            ],
+            "practice_prompts": [
+              "Turn everyday experiences into mini-stories with structure",
+              "Practice the past-present-future or setup-conflict-resolution format",
+              "Keep it short but make sure it has a complete arc"
+            ],
+            "coach_focus": "Look for: clear structure, completeness, engaging everyday content"
+          },
+          "silver": {
+            "title": "Engaging Setups",
+            "description": "Hook your audience and build anticipation",
+            "learning_objective": "Create compelling story openings that draw people in",
+            "success_criteria": [
+              "Start with engaging hooks or intriguing setups",
+              "Build appropriate anticipation for your story",
+              "Use vivid but concise details"
+            ],
+            "practice_prompts": [
+              "Practice different types of hooks - mystery, dramatic statement, vivid scene",
+              "Build up excitement: 'You won't believe what happened next...'",
+              "Paint the scene briefly but vividly to help people picture it"
+            ],
+            "coach_focus": "Look for: compelling hooks, anticipation building, vivid setups"
+          },
+          "gold": {
+            "title": "Masterful Storytelling",
+            "description": "Combine all elements for captivating, memorable stories",
+            "learning_objective": "Tell stories that people remember and want to hear more of",
+            "success_criteria": [
+              "Combine great setup, pacing, and resolution",
+              "Make stories feel conversational, not performative",
+              "Leave audience satisfied but wanting more stories"
+            ],
+            "practice_prompts": [
+              "Bring together all elements - hook, setup, pacing, climax, resolution",
+              "Make it feel like natural conversation, not a performance",
+              "End in a way that invites follow-up or makes them want more stories"
+            ],
+            "coach_focus": "Look for: masterful integration, natural delivery, memorable impact"
+          }
+        },
+        "character_instructions": {
+          "role": "audience",
+          "behavior": "React naturally to story quality - engaged for good stories, distracted for boring ones.",
+          "response_style": "Show emotional reactions to story content and ask follow-ups for engaging stories"
+        }
+      },
+      "active_listening_basic": {
+        "id": "active_listening_basic",
+        "title": "Active Listening",
+        "category": "vibe",
+        "description": "Show people you hear and understand them",
+        "difficulty": "beginner", 
+        "estimated_time": "10-15 minutes",
+        "prerequisite": "asking_questions",
+        "unlocks": ["emotional_support", "value_highlighting"],
+        "levels": {
+          "bronze": {
+            "title": "Vocal Responses",
+            "description": "React aloud to show you're engaged and listening",
+            "learning_objective": "Use vocal cues to show active engagement",
+            "success_criteria": [
+              "React aloud with appropriate responses ('whoa', 'oh no', 'that's cool')",
+              "Match your reactions to the emotional tone",
+              "Show consistent engagement throughout"
+            ],
+            "practice_prompts": [
+              "Your partner will share experiences - react aloud to show you're listening",
+              "Use responses like 'whoa', 'oh no', 'that's so cool' appropriately",
+              "Match your energy to what they're sharing"
+            ],
+            "coach_focus": "Look for: appropriate vocal reactions, emotional matching, consistent engagement"
+          },
+          "silver": {
+            "title": "Mirroring & Echoing",
+            "description": "Reflect back what you hear to show understanding",
+            "learning_objective": "Use mirroring techniques to demonstrate comprehension",
+            "success_criteria": [
+              "Echo key words and phrases naturally",
+              "Mirror emotional tone appropriately",
+              "Show understanding through reflection"
+            ],
+            "practice_prompts": [
+              "Practice echoing important words or phrases they use",
+              "Mirror their emotional tone - excited, worried, happy, etc.",
+              "Show you understand by reflecting back what you heard"
+            ],
+            "coach_focus": "Look for: natural echoing, appropriate mirroring, clear understanding"
+          },
+          "gold": {
+            "title": "Reflective Listening",
+            "description": "Understand and reflect the emotions behind the words",
+            "learning_objective": "Demonstrate deep understanding of emotional content",
+            "success_criteria": [
+              "Identify and reflect underlying emotions",
+              "Ask clarifying questions about feelings",
+              "Show deep empathy and understanding"
+            ],
+            "practice_prompts": [
+              "Focus on the emotions behind what they're saying",
+              "Try statements like 'It sounds like you felt...' or 'That must have been...'",
+              "Ask about their feelings, not just the facts"
+            ],
+            "coach_focus": "Look for: emotional intelligence, empathetic responses, deep understanding"
+          }
+        },
+        "character_instructions": {
+          "role": "sharer",
+          "behavior": "Share personal experiences with emotional content. Open up more when listened to well.",
+          "response_style": "Share increasingly personal content based on quality of listening received"
+        }
+      },
+      "exaggeration": {
+        "id": "exaggeration",
+        "title": "Playful Exaggeration", 
+        "category": "play",
+        "description": "Add humor and energy through playful exaggeration",
+        "difficulty": "intermediate",
+        "estimated_time": "10-15 minutes", 
+        "prerequisite": "stories",
+        "unlocks": ["teasing", "bold_claims"],
+        "levels": {
+          "bronze": {
+            "title": "Simple Exaggeration",
+            "description": "Practice obvious, playful exaggeration for humor",
+            "learning_objective": "Use clear exaggeration to add playfulness to conversation",
+            "success_criteria": [
+              "Exaggerate in obviously playful ways",
+              "Make exaggerations that are clearly not serious",
+              "Add energy and humor to the conversation"
+            ],
+            "practice_prompts": [
+              "Take normal situations and blow them way out of proportion",
+              "Make it obviously playful - think cartoon-level exaggeration",
+              "Focus on adding energy and fun to regular topics"
+            ],
+            "coach_focus": "Look for: obvious playfulness, appropriate energy, clear humor intent"
+          },
+          "silver": {
+            "title": "Responsive Exaggeration",
+            "description": "Exaggerate in response to what others say",
+            "learning_objective": "React to others' statements with playful exaggeration",
+            "success_criteria": [
+              "Build exaggerations off what your partner says",
+              "Match or enhance the mood appropriately",
+              "Show good timing and social awareness"
+            ],
+            "practice_prompts": [
+              "Listen for opportunities to playfully exaggerate their statements",
+              "Build on their energy - if they're excited, get MORE excited",
+              "Pay attention to timing - make sure they're in the mood for playfulness"
+            ],
+            "coach_focus": "Look for: responsiveness, good timing, mood awareness"
+          },
+          "gold": {
+            "title": "Strategic Exaggeration",
+            "description": "Use exaggeration strategically to enhance conversations",
+            "learning_objective": "Master exaggeration as a tool for better conversations",
+            "success_criteria": [
+              "Use exaggeration to improve conversation flow",
+              "Know when to use and when not to use exaggeration",
+              "Demonstrate mastery of playful communication"
+            ],
+            "practice_prompts": [
+              "Use exaggeration strategically - to lighten mood, add energy, or create connection",
+              "Know when NOT to exaggerate - read the situation",
+              "Show mastery by making conversations better through playfulness"
+            ],
+            "coach_focus": "Look for: strategic use, situational awareness, conversation enhancement"
+          }
+        },
+        "character_instructions": {
+          "role": "conversation_partner", 
+          "behavior": "React to exaggeration attempts based on personality. Some love playfulness, others find it annoying.",
+          "response_style": "Give authentic reactions to humor attempts - laugh, roll eyes, or engage based on character"
+        }
+      }
+    },
+    "progression": {
+      "recommended_order": [
+        "basic_weaving",
+        "asking_questions", 
+        "active_listening_basic",
+        "stories",
+        "exaggeration"
+      ],
+      "unlock_requirements": {
+        "bronze_to_silver": {
+          "min_attempts": 3,
+          "success_rate": 0.6
+        },
+        "silver_to_gold": {
+          "min_attempts": 5,
+          "success_rate": 0.7
+        }
+      }
+    }
+  }

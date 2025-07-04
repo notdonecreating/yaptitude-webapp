@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lessons - Yaptitude</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/lessons.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <button class="back-button" id="backButton">← Home</button>
+                <div class="header-text">
+                    <h1>🦋 Lessons</h1>
+                    <p>Practice specific social skills</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Lesson Selection View -->
+        <div class="lesson-selector" id="lessonSelector">
+            <div class="lessons-grid" id="lessonsGrid">
+                <!-- Lessons will be populated here -->
+            </div>
+        </div>
+
+        <!-- Practice View -->
+        <div class="practice-container" id="practiceContainer" style="display: none;">
+            <div class="practice-header">
+                <div class="lesson-info">
+                    <h2 id="currentLessonTitle">Basic Weaving</h2>
+                    <div class="level-indicator">
+                        <span class="level-badge" id="currentLevel">Bronze</span>
+                        <span class="lesson-objective" id="lessonObjective">Learn to pick up conversation threads</span>
+                    </div>
+                </div>
+                <div class="practice-controls">
+                    <button id="callCoach" class="coach-button">🏆 Coach</button>
+                    <button id="endLesson" class="end-button">End Practice</button>
+                </div>
+            </div>
+
+            <!-- Lesson Instructions -->
+            <div class="lesson-instructions" id="lessonInstructions">
+                <h3>Practice Tips</h3>
+                <ul id="practicePrompts">
+                    <!-- Prompts will be populated here -->
+                </ul>
+                <button id="hideInstructions" class="hide-button">Got it!</button>
+            </div>
+
+            <!-- Chat Interface -->
+            <div class="chat-container">
+                <div class="character-info">
+                    <div class="character-avatar" id="characterAvatar">🎯</div>
+                    <div class="character-details">
+                        <div class="character-name" id="characterName">Riley</div>
+                        <div class="character-mood" id="characterMood">😊</div>
+                    </div>
+                </div>
+
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Messages will appear here -->
+                </div>
+
+                <div class="chat-input">
+                    <div class="input-container">
+                        <textarea id="messageInput" placeholder="Type your response..." rows="1"></textarea>
+                        <button id="sendMessage" class="send-button">Send</button>
+                    </div>
+                    <div class="input-help">
+                        <span id="characterLimit">0/500</span>
+                        <button id="voiceButton" class="voice-button" style="display: none;">🎤</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coach Panel -->
+            <div class="coach-panel" id="coachPanel" style="display: none;">
+                <h3>🏆 Your Coach</h3>
+                <div class="coach-options">
+                    <button id="getInstantFeedback" class="coach-option">How am I doing?</button>
+                    <button id="getAdvice" class="coach-option">Give me advice</button>
+                    <button id="endPracticeFeedback" class="coach-option">End & get review</button>
+                </div>
+                <button id="closeCoach" class="close-button">Close</button>
+            </div>
+        </div>
+
+        <!-- Feedback Modal -->
+        <div class="modal" id="feedbackModal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>🏆 Coach Feedback</h3>
+                    <button class="modal-close" id="closeFeedback">×</button>
+                </div>
+                <div class="modal-body">
+                    <div id="feedbackContent">
+                        <!-- Feedback will appear here -->
+                    </div>
+                    <div class="feedback-actions">
+                        <button id="continuePractice" class="continue-button">Continue Practice</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Modal -->
+        <div class="modal" id="resultsModal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>🎉 Practice Complete!</h3>
+                </div>
+                <div class="modal-body">
+                    <div id="resultsContent">
+                        <!-- Results will appear here -->
+                    </div>
+                    <div class="results-actions">
+                        <button id="tryAgain" class="secondary-button">Practice Again</button>
+                        <button id="nextLevel" class="primary-button" style="display: none;">Try Next Level</button>
+                        <button id="backToLessons" class="primary-button">Back to Lessons</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+            <div class="loading-spinner"></div>
+            <p id="loadingText">Starting lesson...</p>
+        </div>
+    </div>
+
+    <!-- Include speech utilities -->
+    <script src="js/speech.js"></script>
+    <script src="js/lessons.js"></script>
+</body>
+</html>

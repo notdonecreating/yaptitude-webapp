@@ -1,0 +1,662 @@
+/* Scenarios-specific styles */
+
+/* Scenario Selection Grid */
+.scenarios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.scenario-card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.scenario-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+
+.scenario-card.unlocked:hover {
+    border-color: #667eea;
+}
+
+.scenario-card.locked {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.scenario-card.locked:hover {
+    transform: none;
+}
+
+/* Scenario Card Header */
+.scenario-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.scenario-icon {
+    font-size: 2.5rem;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+.scenario-mood {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.scenario-mood.relaxed { background: #e8f5e8; color: #2d5a2d; }
+.scenario-mood.energetic { background: #fff2e8; color: #b8640a; }
+.scenario-mood.professional { background: #e8f0ff; color: #2d4a85; }
+.scenario-mood.focused { background: #f0e8ff; color: #5a2d85; }
+.scenario-mood.contemplative { background: #e8f8ff; color: #2d5a85; }
+
+/* Scenario Card Content */
+.scenario-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.scenario-description {
+    color: #666;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.scenario-info {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.difficulty-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.difficulty-badge.easy { background: #e8f5e8; color: #2d5a2d; }
+.difficulty-badge.medium { background: #fff2e8; color: #b8640a; }
+.difficulty-badge.hard { background: #ffe8e8; color: #a82d2d; }
+
+.characters-count {
+    color: #666;
+    font-size: 0.8rem;
+}
+
+.scenario-skills {
+    margin-bottom: 15px;
+}
+
+.scenario-skills small {
+    color: #888;
+    font-style: italic;
+}
+
+.scenario-select-btn {
+    width: 100%;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.scenario-select-btn:hover:not(.disabled) {
+    background: linear-gradient(135deg, #5a6fd8, #6a4190);
+    transform: translateY(-1px);
+}
+
+.scenario-select-btn.disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+/* Character Selection */
+.character-selector {
+    padding: 20px;
+}
+
+.selection-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.scenario-info h2 {
+    margin: 0;
+    color: #333;
+}
+
+.scenario-info p {
+    margin: 5px 0 0 0;
+    color: #666;
+}
+
+.character-selection h3,
+.mission-selection h3 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+/* Characters Grid */
+.characters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.character-card {
+    background: white;
+    border: 2px solid #eee;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.character-card:hover {
+    border-color: #667eea;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.15);
+}
+
+.character-card.selected {
+    border-color: #667eea;
+    background: linear-gradient(135deg, #f8f9ff, #f0f2ff);
+}
+
+.character-avatar {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.character-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.character-type {
+    color: #667eea;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    text-transform: capitalize;
+}
+
+.character-personality {
+    color: #666;
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+
+/* Missions Grid */
+.missions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.mission-card {
+    background: white;
+    border: 2px solid #eee;
+    border-radius: 12px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.mission-card:hover {
+    border-color: #28a745;
+    transform: translateY(-2px);
+}
+
+.mission-card.selected {
+    border-color: #28a745;
+    background: linear-gradient(135deg, #f8fff8, #f0fff0);
+}
+
+.mission-card.no-mission {
+    border-color: #6c757d;
+}
+
+.mission-card.no-mission.selected {
+    border-color: #6c757d;
+    background: linear-gradient(135deg, #f8f9fa, #f0f1f3);
+}
+
+.mission-icon {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+}
+
+.mission-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.mission-description {
+    color: #666;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.start-button {
+    width: 100%;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.start-button:hover:not(:disabled) {
+    background: linear-gradient(135deg, #218838, #1ca085);
+    transform: translateY(-2px);
+}
+
+.start-button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+/* Practice View */
+.scenario-practice {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.practice-header {
+    background: white;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.scenario-context {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.context-info {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.scenario-badge,
+.time-badge,
+.mood-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.scenario-badge {
+    background: #e8f0ff;
+    color: #2d4a85;
+}
+
+.time-badge {
+    background: #fff2e8;
+    color: #b8640a;
+}
+
+.mood-badge {
+    background: #e8f5e8;
+    color: #2d5a2d;
+}
+
+/* Mission Progress */
+.mission-indicator {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.mission-text {
+    font-size: 0.9rem;
+    color: #333;
+    font-weight: 500;
+}
+
+.mission-progress .progress-bar {
+    width: 150px;
+    height: 6px;
+    background: #eee;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.mission-progress .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #28a745, #20c997);
+    transition: width 0.3s ease;
+}
+
+/* Scene Description */
+.scene-description {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    padding: 20px;
+    margin: 20px;
+    border-radius: 12px;
+    border-left: 4px solid #667eea;
+}
+
+.scene-description p {
+    margin: 0 0 15px 0;
+    line-height: 1.6;
+    color: #333;
+}
+
+.hide-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    background: #667eea;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.hide-button:hover {
+    background: #5a6fd8;
+}
+
+/* Chat Container for Scenarios */
+.scenario-practice .chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.scenario-practice .character-info {
+    background: white;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.scenario-practice .character-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.scenario-practice .character-name {
+    font-weight: 600;
+    color: #333;
+}
+
+.scenario-practice .chat-messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background: #fafafa;
+}
+
+.scenario-practice .chat-input {
+    background: white;
+    padding: 20px;
+    border-top: 1px solid #eee;
+}
+
+/* End Button */
+.end-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #dc3545;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.end-button:hover {
+    background: #c82333;
+}
+
+/* Results Modal Content */
+.scenario-summary {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.summary-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.summary-stat {
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #667eea;
+    display: block;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.performance-feedback {
+    margin-bottom: 20px;
+}
+
+.performance-rating {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.rating-badge {
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.rating-badge.excellent {
+    background: #d4edda;
+    color: #155724;
+}
+
+.rating-badge.good {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.rating-badge.fair {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.rating-badge.needs_improvement {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.feedback-section {
+    margin-bottom: 15px;
+}
+
+.feedback-section h4 {
+    color: #333;
+    margin-bottom: 8px;
+    font-size: 1rem;
+}
+
+.feedback-section ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.feedback-section li {
+    margin-bottom: 5px;
+    color: #666;
+}
+
+/* Mission Complete */
+.mission-complete {
+    background: linear-gradient(135deg, #d4edda, #c3e6cb);
+    border: 1px solid #b8dabc;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.mission-complete h4 {
+    color: #155724;
+    margin-bottom: 5px;
+}
+
+.mission-complete p {
+    color: #155724;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Error States */
+.scenario-error {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+}
+
+.retry-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #667eea;
+    color: white;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.retry-button:hover {
+    background: #5a6fd8;
+}
+
+/* Responsive Design for Scenarios */
+@media (max-width: 768px) {
+    .scenarios-grid {
+        grid-template-columns: 1fr;
+        padding: 15px;
+        gap: 15px;
+    }
+    
+    .characters-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+    
+    .missions-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .practice-header {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+    
+    .context-info {
+        justify-content: center;
+    }
+    
+    .mission-indicator {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .mission-progress .progress-bar {
+        width: 100%;
+    }
+    
+    .summary-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .selection-header {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .scenario-card {
+        padding: 15px;
+    }
+    
+    .character-card {
+        padding: 15px;
+    }
+    
+    .mission-card {
+        padding: 12px;
+    }
+    
+    .summary-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .context-info {
+        flex-direction: column;
+        align-items: center;
+    }
+}

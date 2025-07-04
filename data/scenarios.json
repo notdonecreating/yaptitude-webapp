@@ -1,0 +1,256 @@
+{
+    "scenarios": {
+      "coffee_shop": {
+        "id": "coffee_shop",
+        "name": "Coffee Shop",
+        "description": "Casual daytime setting perfect for relaxed conversations",
+        "icon": "☕",
+        "mood": "relaxed",
+        "time_of_day": "afternoon",
+        "background_description": "A cozy coffee shop with ambient music, the smell of fresh coffee, and people working on laptops or chatting quietly",
+        "social_norms": [
+          "Keep voices at conversational level",
+          "It's normal to work alone or chat with friends", 
+          "Casual dress and behavior expected",
+          "People often approach others they know"
+        ],
+        "conversation_starters": [
+          "Commenting on the coffee, food, or atmosphere",
+          "Asking about what someone is working on (if they look approachable)",
+          "Casual observations about the music, crowd, or setup",
+          "Complimenting someone's drink choice or asking for recommendations"
+        ],
+        "characters_present": ["quiet_observer", "laid_back_guy", "bubbly_nervous"],
+        "difficulty": "easy",
+        "good_for_practicing": ["basic_weaving", "asking_questions", "casual_conversation"]
+      },
+      "house_party": {
+        "id": "house_party",
+        "name": "House Party",
+        "description": "Social gathering with music, drinks, and groups of people mingling",
+        "icon": "🎉",
+        "mood": "energetic",
+        "time_of_day": "evening",
+        "background_description": "A lively house party with music playing, people in small groups chatting, some dancing, drinks available",
+        "social_norms": [
+          "Louder conversation is normal due to music",
+          "People expect to meet new people",
+          "More casual, playful behavior is accepted",
+          "Groups are often open to new people joining"
+        ],
+        "conversation_starters": [
+          "Asking how someone knows the host",
+          "Commenting on the music, drinks, or party setup",
+          "Complimenting someone's outfit or style",
+          "Asking what someone does or where they're from"
+        ],
+        "characters_present": ["laid_back_guy", "bubbly_nervous", "self_centered", "curious_questioner"],
+        "difficulty": "medium",
+        "good_for_practicing": ["stories", "exaggeration", "group_conversation", "playful_banter"]
+      },
+      "networking_event": {
+        "id": "networking_event", 
+        "name": "Professional Networking",
+        "description": "Business networking event with professionals looking to make connections",
+        "icon": "💼",
+        "mood": "professional",
+        "time_of_day": "evening",
+        "background_description": "A professional networking event in a nice venue, people in business attire, name tags, light refreshments",
+        "social_norms": [
+          "Professional but friendly demeanor expected",
+          "People expect to discuss work and career goals",
+          "Business card exchanges are common",
+          "Conversations tend to be purposeful but still social"
+        ],
+        "conversation_starters": [
+          "Asking what someone does for work",
+          "Discussing industry trends or challenges",
+          "Asking about career journey or background",
+          "Commenting on the event or speakers"
+        ],
+        "characters_present": ["self_centered", "curious_questioner", "quiet_observer"],
+        "difficulty": "hard",
+        "good_for_practicing": ["pitches", "professional_conversation", "value_highlighting", "active_listening"]
+      },
+      "gym": {
+        "id": "gym",
+        "name": "Gym",
+        "description": "Fitness center where people work out and might chat between sets",
+        "icon": "💪",
+        "mood": "focused",
+        "time_of_day": "various",
+        "background_description": "A modern gym with equipment, mirrors, energetic music, people focused on workouts but open to brief chats",
+        "social_norms": [
+          "Keep conversations brief unless someone is clearly taking a break",
+          "Fitness and health topics are natural conversation starters",
+          "People are sweaty and focused - keep it casual",
+          "Asking for workout tips or spotting is common"
+        ],
+        "conversation_starters": [
+          "Asking for advice on exercises or equipment",
+          "Complimenting someone's form or dedication",
+          "Commenting on music or gym facilities",
+          "Asking about workout routines or fitness goals"
+        ],
+        "characters_present": ["self_centered", "laid_back_guy"],
+        "difficulty": "medium",
+        "good_for_practicing": ["compliments", "asking_for_help", "brief_conversations"]
+      },
+      "bookstore": {
+        "id": "bookstore",
+        "name": "Bookstore",
+        "description": "Quiet, intellectual atmosphere perfect for thoughtful conversations",
+        "icon": "📚",
+        "mood": "contemplative",
+        "time_of_day": "afternoon",
+        "background_description": "A cozy bookstore with shelves full of books, reading nooks, soft lighting, and quiet browsing",
+        "social_norms": [
+          "Keep voices low and respectful",
+          "Literary and intellectual topics are welcome",
+          "People expect thoughtful, genuine conversations",
+          "Browsing quietly is respected"
+        ],
+        "conversation_starters": [
+          "Asking for book recommendations",
+          "Commenting on books someone is looking at",
+          "Discussing authors, genres, or recent reads",
+          "Asking about book clubs or literary events"
+        ],
+        "characters_present": ["quiet_observer", "curious_questioner"],
+        "difficulty": "medium",
+        "good_for_practicing": ["deep_conversation", "asking_questions", "shared_interests"]
+      },
+      "park": {
+        "id": "park",
+        "name": "Park",
+        "description": "Outdoor setting with people walking, exercising, or relaxing",
+        "icon": "🌳",
+        "mood": "relaxed",
+        "time_of_day": "daytime",
+        "background_description": "A pleasant park with walking paths, benches, trees, people jogging, walking dogs, or having picnics",
+        "social_norms": [
+          "Very casual and friendly atmosphere",
+          "People are often open to brief, friendly chats",
+          "Dog walkers and joggers might pause for conversation",
+          "Nature and outdoor activities are natural topics"
+        ],
+        "conversation_starters": [
+          "Complimenting someone's dog",
+          "Commenting on the weather or scenery", 
+          "Asking about running routes or park amenities",
+          "Casual observations about nature or activities"
+        ],
+        "characters_present": ["laid_back_guy", "bubbly_nervous", "curious_questioner"],
+        "difficulty": "easy",
+        "good_for_practicing": ["casual_conversation", "compliments", "environmental_observations"]
+      }
+    },
+    "scenario_modifiers": {
+      "time_pressure": {
+        "name": "Time Pressure",
+        "description": "You only have 5 minutes to make a good impression",
+        "effect": "Conversation will end after 5 minutes automatically",
+        "difficulty_increase": 1
+      },
+      "group_setting": {
+        "name": "Group Conversation", 
+        "description": "Join a conversation that's already happening",
+        "effect": "Multiple characters will be present and talking",
+        "difficulty_increase": 2
+      },
+      "challenging_mood": {
+        "name": "Challenging Mood",
+        "description": "The character is having a difficult day",
+        "effect": "Character starts in a negative or distracted mood",
+        "difficulty_increase": 2
+      },
+      "specific_goal": {
+        "name": "Specific Goal",
+        "description": "You have a specific objective to accomplish",
+        "effect": "Must achieve a goal like getting contact info or making plans",
+        "difficulty_increase": 1
+      }
+    },
+    "missions": {
+      "get_contact_info": {
+        "name": "Make a Connection",
+        "description": "Have a natural conversation that leads to exchanging contact information",
+        "success_criteria": [
+          "Build genuine rapport first",
+          "Find common ground or shared interests",
+          "Make the contact exchange feel natural, not forced"
+        ],
+        "difficulty": "medium"
+      },
+      "make_plans": {
+        "name": "Make Plans",
+        "description": "Suggest and agree on a future activity together",
+        "success_criteria": [
+          "Discover shared interests or activities",
+          "Propose a specific plan that appeals to both of you",
+          "Get enthusiastic agreement for the plan"
+        ],
+        "difficulty": "medium"
+      },
+      "give_compliment": {
+        "name": "Genuine Compliment",
+        "description": "Give a sincere, well-received compliment",
+        "success_criteria": [
+          "Find something genuinely worth complimenting",
+          "Deliver compliment naturally within conversation",
+          "Get a positive, appreciative response"
+        ],
+        "difficulty": "easy"
+      },
+      "learn_something_personal": {
+        "name": "Personal Connection",
+        "description": "Learn something meaningful about the person through good conversation",
+        "success_criteria": [
+          "Ask thoughtful, open-ended questions",
+          "Listen actively and show genuine interest",
+          "Get them to share something personal or meaningful"
+        ],
+        "difficulty": "medium"
+      },
+      "make_them_laugh": {
+        "name": "Bring Joy",
+        "description": "Use humor appropriately to make them genuinely laugh or smile",
+        "success_criteria": [
+          "Read their mood and sense of humor",
+          "Use appropriate humor for the situation",
+          "Get a genuine laugh or big smile"
+        ],
+        "difficulty": "hard"
+      },
+      "handle_disagreement": {
+        "name": "Navigate Disagreement",
+        "description": "Disagree respectfully while maintaining good rapport",
+        "success_criteria": [
+          "Express different viewpoint respectfully",
+          "Listen to their perspective with openness",
+          "Maintain friendly relationship despite disagreement"
+        ],
+        "difficulty": "hard"
+      }
+    },
+    "difficulty_levels": {
+      "easy": {
+        "character_patience": "high",
+        "conversation_length": "5-10 exchanges",
+        "mission_complexity": "simple",
+        "forgiveness_factor": "high"
+      },
+      "medium": {
+        "character_patience": "moderate", 
+        "conversation_length": "8-15 exchanges",
+        "mission_complexity": "moderate",
+        "forgiveness_factor": "moderate"
+      },
+      "hard": {
+        "character_patience": "low",
+        "conversation_length": "10-20 exchanges", 
+        "mission_complexity": "complex",
+        "forgiveness_factor": "low"
+      }
+    }
+  }

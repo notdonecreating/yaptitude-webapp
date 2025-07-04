@@ -1,0 +1,496 @@
+/* Lesson Selection Styles */
+.lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 30px;
+}
+
+.lesson-card {
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.lesson-card.locked {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.lesson-card.locked:hover {
+    transform: none;
+}
+
+.lesson-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.lesson-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 0;
+    color: #2c3e50;
+}
+
+.lesson-category {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.lesson-category.chat {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+}
+
+.lesson-category.yap {
+    background: linear-gradient(135deg, #ffa500, #ff6b6b);
+    color: white;
+}
+
+.lesson-category.vibe {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+}
+
+.lesson-category.play {
+    background: linear-gradient(135deg, #e83e8c, #fd7e14);
+    color: white;
+}
+
+.lesson-description {
+    color: #6c757d;
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+
+.lesson-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.lesson-difficulty {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.difficulty-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #e9ecef;
+}
+
+.difficulty-dot.filled {
+    background: #ffc107;
+}
+
+.lesson-progress-section {
+    margin-bottom: 16px;
+}
+
+.lesson-progress-text {
+    font-size: 14px;
+    color: #495057;
+    margin-bottom: 4px;
+}
+
+.lesson-levels {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.level-indicator {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    border: 2px solid #e9ecef;
+    color: #6c757d;
+}
+
+.level-indicator.completed {
+    background: #28a745;
+    border-color: #28a745;
+    color: white;
+}
+
+.level-indicator.current {
+    border-color: #667eea;
+    color: #667eea;
+    background: rgba(102, 126, 234, 0.1);
+}
+
+.lesson-action {
+    margin-top: 16px;
+}
+
+.lesson-button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.lesson-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.lesson-button:disabled {
+    background: #e9ecef;
+    color: #6c757d;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Practice Interface Styles */
+.practice-container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 100px);
+}
+
+.practice-header {
+    padding: 20px 30px;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+}
+
+.lesson-info {
+    flex: 1;
+}
+
+.lesson-info h2 {
+    margin: 0 0 8px 0;
+    color: #2c3e50;
+    font-size: 1.5rem;
+}
+
+.level-indicator {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.lesson-objective {
+    color: #6c757d;
+    font-size: 14px;
+}
+
+.practice-controls {
+    display: flex;
+    gap: 12px;
+}
+
+.coach-button {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.coach-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.end-button {
+    background: #dc3545;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.end-button:hover {
+    background: #c82333;
+}
+
+/* Lesson Instructions */
+.lesson-instructions {
+    background: #f8f9fa;
+    padding: 20px 30px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.lesson-instructions h3 {
+    margin: 0 0 12px 0;
+    color: #495057;
+    font-size: 1.1rem;
+}
+
+.lesson-instructions ul {
+    margin: 0 0 16px 20px;
+    color: #6c757d;
+}
+
+.lesson-instructions li {
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.hide-button {
+    background: #6c757d;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.hide-button:hover {
+    background: #545b62;
+}
+
+/* Character Info */
+.character-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: white;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.character-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border: 2px solid #dee2e6;
+}
+
+.character-details {
+    flex: 1;
+}
+
+.character-name {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 4px;
+}
+
+.character-mood {
+    font-size: 20px;
+}
+
+/* Chat Container */
+.chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: white;
+}
+
+.chat-input {
+    padding: 20px;
+    border-top: 1px solid #e9ecef;
+    background: white;
+}
+
+/* Coach Panel */
+.coach-panel {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    padding: 20px;
+    border-top: 1px solid #ddd;
+}
+
+.coach-panel h3 {
+    color: white;
+    margin: 0 0 16px 0;
+    font-size: 1.1rem;
+}
+
+.coach-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.coach-option {
+    background: rgba(255, 255, 255, 0.9);
+    color: #28a745;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.coach-option:hover {
+    background: white;
+    transform: translateY(-1px);
+}
+
+.close-button {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.close-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Feedback Content */
+.feedback-actions, .results-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.continue-button {
+    background: #28a745;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+}
+
+.continue-button:hover {
+    background: #218838;
+}
+
+/* Results Content */
+.results-content {
+    text-align: center;
+}
+
+.results-content h4 {
+    margin: 0 0 12px 0;
+    color: #495057;
+}
+
+.completion-status {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.completion-status.completed {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+}
+
+.completion-status.not-completed {
+    background: linear-gradient(135deg, #ffc107, #fd7e14);
+    color: #8b5a00;
+}
+
+.assessment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+}
+
+.assessment-item {
+    text-align: center;
+    padding: 16px;
+    background: #f8f9fa;
+    border-radius: 12px;
+}
+
+.assessment-score {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #667eea;
+    margin-bottom: 4px;
+}
+
+.assessment-label {
+    font-size: 14px;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .lessons-grid {
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
+    
+    .practice-header {
+        flex-direction: column;
+        gap: 16px;
+        align-items: stretch;
+    }
+    
+    .practice-controls {
+        justify-content: center;
+    }
+    
+    .lesson-instructions {
+        padding: 16px 20px;
+    }
+    
+    .coach-options {
+        flex-direction: column;
+    }
+    
+    .feedback-actions, .results-actions {
+        flex-direction: column;
+    }
+    
+    .assessment-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Animation for lesson transitions */
+.lesson-card {
+    transition: all 0.3s ease;
+}
+
+.lesson-card.entering {
+    animation: slideInUp 0.3s ease;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

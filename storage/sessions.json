@@ -1,0 +1,71 @@
+{
+  "4018d8a26a6abc44": {
+    "sessionId": "4018d8a26a6abc44",
+    "deviceFingerprint": "5c5f66106a321ef32da0322981d132cd",
+    "createdAt": "2025-07-04T08:47:19.801Z",
+    "lastActiveAt": "2025-07-04T08:47:19.801Z",
+    "lessonProgress": {},
+    "scenarioProgress": {},
+    "totalPracticeTime": 0,
+    "conversationCount": 0,
+    "preferences": {
+      "speechEnabled": false,
+      "difficulty": "medium",
+      "pace": "normal",
+      "feedbackStyle": "encouraging"
+    },
+    "achievements": [],
+    "streaks": {
+      "dailyPractice": 0,
+      "currentStreak": 0,
+      "longestStreak": 0,
+      "lastPracticeDate": null
+    }
+  },
+  "7db6f11def6dce63": {
+    "sessionId": "7db6f11def6dce63",
+    "deviceFingerprint": "94839b2180a5e1df26c25989198322cb",
+    "createdAt": "2025-07-04T08:47:27.460Z",
+    "lastActiveAt": "2025-07-04T08:47:27.460Z",
+    "lessonProgress": {},
+    "scenarioProgress": {},
+    "totalPracticeTime": 0,
+    "conversationCount": 0,
+    "preferences": {
+      "speechEnabled": false,
+      "difficulty": "medium",
+      "pace": "normal",
+      "feedbackStyle": "encouraging"
+    },
+    "achievements": [],
+    "streaks": {
+      "dailyPractice": 0,
+      "currentStreak": 0,
+      "longestStreak": 0,
+      "lastPracticeDate": null
+    }
+  },
+  "7dd20884b5ac4c3c": {
+    "sessionId": "7dd20884b5ac4c3c",
+    "deviceFingerprint": "b757d1d1f436dcdb90e689706f75f84f",
+    "createdAt": "2025-07-04T08:54:11.475Z",
+    "lastActiveAt": "2025-07-04T08:54:11.475Z",
+    "lessonProgress": {},
+    "scenarioProgress": {},
+    "totalPracticeTime": 0,
+    "conversationCount": 0,
+    "preferences": {
+      "speechEnabled": false,
+      "difficulty": "medium",
+      "pace": "normal",
+      "feedbackStyle": "encouraging"
+    },
+    "achievements": [],
+    "streaks": {
+      "dailyPractice": 0,
+      "currentStreak": 0,
+      "longestStreak": 0,
+      "lastPracticeDate": null
+    }
+  }
+}

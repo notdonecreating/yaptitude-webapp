@@ -29,16 +29,13 @@ app.use(express.static('public'));
 
 // Session middleware - attach session info to requests
 app.use(async (req, res, next) => {
-    console.log(`DEBUG: ${req.method} ${req.path}`);
     try {
         // Get client info
         const clientIP = sessionService.getClientIP(req);
         const deviceFingerprint = sessionService.generateDeviceFingerprint(req);
         
-        console.log('DEBUG: About to get/create session...');
         // Get or create session
         const session = await progressService.getOrCreateSession(clientIP, deviceFingerprint);
-        console.log('DEBUG: Session created/retrieved:', session.sessionId);
         
         // Attach services and session to request
         req.sessionId = session.sessionId;
@@ -48,27 +45,12 @@ app.use(async (req, res, next) => {
         req.sessionService = sessionService;
         req.speechService = speechService;
         
-        console.log('DEBUG: Services attached, calling next()');
         next();
     } catch (error) {
         console.error('Session middleware error:', error);
-        console.error('Error stack:', error.stack);
-        next(error); // Pass error to error handler
+        next(); // Continue even if session creation fails
     }
 });
-
-// Add this RIGHT AFTER your middleware, before the API routes
-app.get('/test-server', (req, res) => {
-    res.json({ message: 'Server is working!' });
-});
-
-console.log('About to register routes...');
-
-// API Routes
-app.use('/api/lessons', lessonsRoutes);
-app.use('/api/scenarios', scenariosRoutes);
-
-console.log('Routes registered successfully!');
 
 // API Routes
 app.use('/api/lessons', lessonsRoutes);

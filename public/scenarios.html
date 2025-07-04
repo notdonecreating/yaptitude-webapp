@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scenarios - Yaptitude</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/scenarios.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <button class="back-button" id="backButton">← Home</button>
+                <div class="header-text">
+                    <h1>🎭 Scenarios</h1>
+                    <p>Practice in real-world situations</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Scenario Selection View -->
+        <div class="scenario-selector" id="scenarioSelector">
+            <div class="scenarios-grid" id="scenariosGrid">
+                <!-- Scenarios will be populated here -->
+            </div>
+        </div>
+
+        <!-- Character Selection View -->
+        <div class="character-selector" id="characterSelector" style="display: none;">
+            <div class="selection-header">
+                <button class="back-button" id="backToScenarios">← Back</button>
+                <div class="scenario-info">
+                    <h2 id="selectedScenarioName">Coffee Shop</h2>
+                    <p id="selectedScenarioDescription">Casual daytime setting</p>
+                </div>
+            </div>
+
+            <div class="character-selection">
+                <h3>Choose who to talk to:</h3>
+                <div class="characters-grid" id="charactersGrid">
+                    <!-- Characters will be populated here -->
+                </div>
+            </div>
+
+            <div class="mission-selection" id="missionSelection">
+                <h3>Optional Mission:</h3>
+                <div class="missions-grid" id="missionsGrid">
+                    <div class="mission-card no-mission selected" data-mission="">
+                        <div class="mission-icon">💭</div>
+                        <h4>Free Practice</h4>
+                        <p>Just have a natural conversation</p>
+                    </div>
+                    <!-- Missions will be populated here -->
+                </div>
+            </div>
+
+            <button id="startScenario" class="start-button" disabled>Start Conversation</button>
+        </div>
+
+        <!-- Practice View -->
+        <div class="scenario-practice" id="scenarioPractice" style="display: none;">
+            <div class="practice-header">
+                <div class="scenario-context">
+                    <div class="context-info">
+                        <span class="scenario-badge" id="scenarioBadge">☕ Coffee Shop</span>
+                        <span class="time-badge" id="timeBadge">Afternoon</span>
+                        <span class="mood-badge" id="moodBadge">Relaxed</span>
+                    </div>
+                    <div class="mission-indicator" id="missionIndicator" style="display: none;">
+                        <span class="mission-text" id="missionText">Mission: Make a connection</span>
+                        <div class="mission-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="missionProgress" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button id="endScenario" class="end-button">End Practice</button>
+            </div>
+
+            <!-- Scene Description -->
+            <div class="scene-description" id="sceneDescription">
+                <p id="sceneText">You're in a cozy coffee shop...</p>
+                <button id="hideScene" class="hide-button">Continue</button>
+            </div>
+
+            <!-- Chat Interface -->
+            <div class="chat-container">
+                <div class="character-info">
+                    <div class="character-avatar" id="practiceCharacterAvatar">😊</div>
+                    <div class="character-details">
+                        <div class="character-name" id="practiceCharacterName">Alex</div>
+                        <div class="character-mood" id="practiceCharacterMood">😊</div>
+                    </div>
+                </div>
+
+                <div class="chat-messages" id="scenarioChatMessages">
+                    <!-- Messages will appear here -->
+                </div>
+
+                <div class="chat-input">
+                    <div class="input-container">
+                        <textarea id="scenarioMessageInput" placeholder="What do you say?" rows="1"></textarea>
+                        <button id="sendScenarioMessage" class="send-button">Send</button>
+                    </div>
+                    <div class="input-help">
+                        <span id="scenarioCharacterLimit">0/500</span>
+                        <button id="scenarioVoiceButton" class="voice-button" style="display: none;">🎤</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Modal -->
+        <div class="modal" id="scenarioResultsModal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>🎭 Scenario Complete!</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="scenario-summary" id="scenarioSummary">
+                        <!-- Summary will appear here -->
+                    </div>
+                    <div class="performance-feedback" id="performanceFeedback">
+                        <!-- Performance feedback will appear here -->
+                    </div>
+                    <div class="results-actions">
+                        <button id="tryScenarioAgain" class="secondary-button">Try Again</button>
+                        <button id="newScenario" class="primary-button">New Scenario</button>
+                        <button id="backToScenariosFromResults" class="primary-button">Back to Scenarios</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="scenarioLoadingOverlay" style="display: none;">
+            <div class="loading-spinner"></div>
+            <p id="scenarioLoadingText">Setting up scenario...</p>
+        </div>
+
+        <!-- Error Message -->
+        <div class="error-message" id="scenarioErrorMessage" style="display: none;">
+            <h3>Oops! Something went wrong</h3>
+            <p id="scenarioErrorText">Failed to load scenario.</p>
+            <button id="scenarioRetryButton" class="retry-button">Try Again</button>
+        </div>
+    </div>
+
+    <!-- Include speech utilities -->
+    <script src="js/speech.js"></script>
+    <script src="js/scenarios.js"></script>
+</body>
+</html>
